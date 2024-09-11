@@ -70,8 +70,8 @@ const Profile = () => {
         <div className='flex flex-row'>
 
        
-        <VerticalNav />
-        <div className={nav ? 'main-form grid grid-cols-2 g-5 hide' : 'main-form grid grid-cols-2 g-5 nohide'}>
+        {/* <VerticalNav /> */}
+        <div className={'main-form grid grid-cols-2 g-5 nohide'}>
           <div className='acc'>
             <h1 className='text-3xl mb-5'>Account Info</h1>
             <h1 className='mb-2'>UserName : {username}</h1>

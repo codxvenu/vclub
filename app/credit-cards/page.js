@@ -142,7 +142,7 @@ const CreditCardForm = () => {
 
     const handleSubmit = async () => {
         try {
-          const response = await fetch('http://localhost:5000/api/cards', {
+          const response = await fetch('/api/cards', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -210,7 +210,7 @@ const CreditCardForm = () => {
         });
       
         try {
-          const response = await fetch('http://localhost:5000/api/addcart', {
+          const response = await fetch('/api/addcart', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

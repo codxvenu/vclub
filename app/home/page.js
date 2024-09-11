@@ -16,7 +16,6 @@ const home = () => {
       <div className="main-content">
         <HorizontalNav/>
         <div className='flex sep'>
-        <VerticalNav />
         <Data/>
         </div>
 

@@ -89,7 +89,7 @@ const Cart = () => {
         <div className='flex'>
 
         
-        <VerticalNav />
+      
         <div className={nav ? 'main-form hide' : 'main-form nohide'}>
           <h1 className='text-xl'>Your Orders</h1>
           <div className='overflow-auto'>

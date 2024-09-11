@@ -34,7 +34,7 @@ const veiw = (id) => {
         }
         try {
           const username = localStorage.getItem("username");
-          const response = await axios.get(`http://localhost:5000/api/view/${id}`, { params: { username}, withCredentials: true });
+          const response = await axios.get(`/api/view/${id}`, { params: { username}, withCredentials: true });
           // setData(response);
           console.log(response.data);
             setData(response.data);

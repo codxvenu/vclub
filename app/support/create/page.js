@@ -43,7 +43,7 @@ const CreditCardForm = () => {
 
     const handleSubmit = async ()=> {
         try {
-          const response = await fetch('http://localhost:5000/api/create/ticket', {
+          const response = await fetch('/api/create/ticket', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

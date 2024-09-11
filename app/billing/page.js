@@ -36,7 +36,7 @@ const BillingPage = () => {
 
   useEffect(() => {
     const username = localStorage.getItem('username');
-    fetch(`http://localhost:5000/api/payments?username=${username}`)
+    fetch(`/api/payments?username=${username}`)
       .then((response) => response.json())
       .then((data) => setData(data))
       .catch((error) => console.error('Error fetching transaction data:', error));
@@ -48,7 +48,7 @@ const BillingPage = () => {
     const username = localStorage.getItem('username');
     setIsloader(true);
     try {
-      await axios.post(`http://localhost:5000/api/submit-transaction`, {
+      await axios.post(`/api/submit-transaction`, {
         transactionId,
         username,
       }, { withCredentials: true });

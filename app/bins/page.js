@@ -81,7 +81,7 @@ function bins() {
   
     const handleSubmit = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/bins', {
+        const response = await fetch('/api/bins', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -147,7 +147,7 @@ useEffect(() => {
     });
   
     try {
-      const response = await fetch('http://localhost:5000/api/purchase_bins', {
+      const response = await fetch('/api/purchase_bins', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

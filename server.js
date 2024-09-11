@@ -21,7 +21,7 @@ app.use(session({
 
 app.use(bodyParser.json());
 const corsOptions = {
-  origin: "http://localhost:3000", // Use the environment variable
+  origin: process.env.FRONTEND_URL, // Use the environment variable
   credentials: true
 };
 

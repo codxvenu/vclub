@@ -24,7 +24,7 @@ const Support = () => {
       return;
     }
     try {
-      const response = await axios.get(`http://localhost:5000/api/ticket/`, { params: { username }, withCredentials: true });
+      const response = await axios.get(`/api/ticket/`, { params: { username }, withCredentials: true });
       if (Array.isArray(response.data)) {
         setData(response.data);
       } else {
@@ -44,7 +44,7 @@ const Support = () => {
       const username = localStorage.getItem("username");
       if (username) {
         try {
-          const response = await axios.get(`http://localhost:5000/api/balance`, { params: { username }, withCredentials: true });
+          const response = await axios.get(`/api/balance`, { params: { username }, withCredentials: true });
           setBalance(response.data.balance);
         } catch (error) {
           if (error.response && error.response.status === 401) {

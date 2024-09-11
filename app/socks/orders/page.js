@@ -101,7 +101,7 @@ const SocksOrders = () => {
     }
     try {
       const username = localStorage.getItem("username");
-      const response = await axios.get(`http://localhost:5000/api/sock/order/`, { params: { username }, withCredentials: true });
+      const response = await axios.get(`/api/sock/order/`, { params: { username }, withCredentials: true });
       // setData(response);
       console.log(response.data);
       if (Array.isArray(response.data)) {
@@ -137,7 +137,7 @@ const SocksOrders = () => {
         console.log("username is undefined");
       } else {
         try {
-          const response = await axios.get(`http://localhost:5000/api/balance`, { params: { username }, withCredentials: true });
+          const response = await axios.get(`/api/balance`, { params: { username }, withCredentials: true });
           setBalance(response.data.balance);
         } catch (error) {
           if (error.response && error.response.status === 401) {

@@ -21,7 +21,7 @@ function LoginSignup() {
   const [email, setEmail] = useState("");
   const [mdsCode, setMdsCode] = useState("");
   const [captcha, setCaptcha] = useState("");
-  const [captchaUrl, setCaptchaUrl] = useState(`http://localhost:5000/api/captcha`);
+  const [captchaUrl, setCaptchaUrl] = useState(`/api/captcha`);
   const [isLoading, setIsLoading] = useState(false); // Loading state
   const router = useRouter(); // Use useRouter from next/router
 
@@ -30,7 +30,7 @@ function LoginSignup() {
   }, []);
 
   const fetchCaptcha = () => {
-    setCaptchaUrl(`http://localhost:5000/api/captcha?${Date.now()}`);
+    setCaptchaUrl(`/api/captcha?${Date.now()}`);
   };
 
   const handleUsernameChange = (event) => {
@@ -62,7 +62,7 @@ function LoginSignup() {
     event.preventDefault();
     setIsLoading(true); // Set loading state
 
-    const url = isLogin ? `http://localhost:5000/api/login` : `http://localhost:5000/api/signup`;
+    const url = isLogin ? `/api/login` : `/api/signup`;
     const data = isLogin ? { username, password, mdsCode, captcha } : { username, password, email };
 
     try {

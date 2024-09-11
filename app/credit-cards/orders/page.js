@@ -101,7 +101,7 @@ const CreditCardOrders = () => {
     }
     try {
       const username = localStorage.getItem("username");
-      const response = await axios.get(`http://localhost:5000/api/card/order/`, { params: { username }, withCredentials: true });
+      const response = await axios.get(`/api/card/order/`, { params: { username }, withCredentials: true });
       // setData(response);
       console.log(response.data);
       if (Array.isArray(response.data)) {
@@ -137,7 +137,7 @@ const CreditCardOrders = () => {
         console.log("username is undefined");
       } else {
         try {
-          const response = await axios.get(`http://localhost:5000/api/balance`, { params: { username }, withCredentials: true });
+          const response = await axios.get(`/api/balance`, { params: { username }, withCredentials: true });
           setBalance(response.data.balance);
         } catch (error) {
           if (error.response && error.response.status === 401) {
@@ -169,7 +169,7 @@ const CreditCardOrders = () => {
     }
     const requestBody = JSON.stringify({ username: username,info : info})
    try {
-    const response = await fetch('http://localhost:5000/api/order/remove', {
+    const response = await fetch('/api/order/remove', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -203,7 +203,7 @@ const handledata = async (transactionId) => {
     return;
   }
 
-  fetch(`http://localhost:5000/api/orders/${transactionId}?username=${username}`)
+  fetch(`/api/orders/${transactionId}?username=${username}`)
   .then(response => {
     // Check if response is CSV
     const contentType = response.headers.get('Content-Type');

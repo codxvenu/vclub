@@ -4,67 +4,121 @@ import './css/horizontal.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
-import { faTwitter, faFontAwesome, faTelegram } from '@fortawesome/free-brands-svg-icons';
+import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
+import Dialog from './dialog';
 import Link from "next/link";
-import { useTheme } from '../theme/ThemeContext'; // ad
-import { Dropdown } from "flowbite-react";
-import { HiCog, HiCurrencyDollar, HiLogout, HiViewGrid } from "react-icons/hi";
 
-library.add(fas, faTwitter, faFontAwesome);
+library.add(fas);
 
-const HorizontalNav = () => {
+function HorizontalNav() {
   const [balance, setBalance] = useState(0);
-  const { theme, toggleTheme } = useTheme(); // Use theme context
+  const [showCCSDropdown, setShowCCSDropdown] = useState(false);
+  const [showSocksDropdown, setShowSocksDropdown] = useState(false);
+  const [showBillingDropdown, setShowBillingDropdown] = useState(false);
+  const [showSupportDropdown, setShowSupportDropdown] = useState(false);
+  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isopen, setIsOpen] = useState(true);
+
+  const handleopen = () => {
+    setIsOpen(prev => !prev);
+  };
+
+  const handleDialog = () => {
+    setIsOpen(true);
+    setIsModalOpen(true);
+  };
+
+  const closeDialog = () => setIsModalOpen(false);
 
   useEffect(() => {
     const fetchBalance = async () => {
-      try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_API_URL}/balance`, { withCredentials: true });
-        setBalance(response.data.balance);
-      } catch (error) {
-        if (error.response && error.response.status === 401) {
-          // Redirect to the login page
-          window.location.href = '/login';
-        } else {
-          console.error('Error fetching balance:', error);
+      const username = localStorage.getItem("username");
+      if (!username) {
+        console.log("username is undefined");
+      } else {
+        try {
+          const response = await axios.get(`http://localhost:5000/api/balance`, { params: { username }, withCredentials: true });
+          setBalance(response.data.balance);
+        } catch (error) {
+          if (error.response && error.response.status === 401) {
+            window.location.href = '/login';
+          } else {
+            console.error('Error fetching balance:', error);
+          }
         }
       }
     };
-    
+
     fetchBalance();
   }, []);
 
   return (
-    <div className={`horizontal-nav justify-end gap-3 ${theme}`}>
-      <button className="become-seller flex gap-2 items-center">
-        <FontAwesomeIcon icon="fa-solid fa-shop" className='w-5' /><span> Become Seller</span>
-      </button>
-      <div className="balance flex gap-5 group">
-        <FontAwesomeIcon icon="fa-solid fa-bitcoin-sign" className='w-10' /> <span>$62723.94</span>
-      </div>
-      <div className="links">
-        <a onClick={toggleTheme} className="theme-toggle-btn">
-          <FontAwesomeIcon icon={theme === 'light' ? 'fa-solid fa-moon' : 'fa-solid fa-sun'} />
-        </a>
-        <div className="seo flex g-4">
-          
+    <div className="navbar fixed top-0 w-full bg-dark-900 text-white">
+      <div className={`${isopen ? 'flex' : 'block'} container mx-auto justify-between items-center`}>
+        <button className="navbar-toggler lg:hidden text-white" type="button" onClick={handleopen}>
+          <span className="navbar-toggler-icon">☰</span>
+        </button>
+        <div className={`${isopen ? 'hidden' : 'flex'} lg:flex w-full justify-between`} id="navbarResponsive_top">
+          <ul className="navbar-nav flex">
+            <li className="nav-item" onClick={handleDialog}>
+              <a className="nav-link hover:text-gray-400">News</a>
+            </li>
+            <li className="nav-item">
+              <a href="/preorder" className="nav-link hover:text-gray-400">Preorder</a>
+            </li>
+            <li className="nav-item">
+              <a href="/bins" className="nav-link hover:text-gray-400">NoVBV Bins <span className="bg-red-600 text-white rounded-full px-2 text-xs">new</span></a>
+            </li>
+            <li className="nav-item dropdown relative">
+              <a className="nav-link drop hover:text-gray-400 flex gap-2" href="#" onClick={() => setShowCCSDropdown(!showCCSDropdown)}>CCS <FontAwesomeIcon icon="fa-solid fa-caret-down" /></a>
+              <ul className={`${showCCSDropdown ? 'block' : 'hidden'} dropdown-menu absolute left-0 mt-2 w-40 bg-white text-black`}>
+                <li><a className="dropdown-item px-4 py-2 hover:bg-gray-200" href="/credit-cards">Buy CCS</a></li>
+                <li><a className="dropdown-item px-4 py-2 hover:bg-gray-200" href="/credit-cards/cart">Cart CCS</a></li>
+                <li><a className="dropdown-item px-4 py-2 hover:bg-gray-200" href="/credit-cards/orders">Orders CCS</a></li>
+                <li><a className="dropdown-item px-4 py-2 hover:bg-gray-200" onClick={handleDialog} >Binlookup</a></li>
+                <li><a className="dropdown-item px-4 py-2 hover:bg-gray-200" href="/preorder">Bin Preorder</a></li>
+              </ul>
+            </li>
+            <li className="nav-item dropdown relative">
+              <a className="nav-link drop hover:text-gray-400 flex gap-2" href="#" onClick={handleDialog}>Socks 5 <FontAwesomeIcon icon="fa-solid fa-caret-down" /></a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href='/refund'>Refund policy</a>
+            </li>
+            <li className="nav-item dropdown relative">
+              <a className="nav-link drop hover:text-gray-400 flex gap-2" href="#" onClick={() => setShowBillingDropdown(!showBillingDropdown)}>Billing <FontAwesomeIcon icon="fa-solid fa-caret-down" /></a>
+              <ul className={`${showBillingDropdown ? 'block' : 'hidden'} dropdown-menu absolute left-0 mt-2 w-40 bg-white text-black`}>
+                <li><a className="dropdown-item px-4 py-2 hover:bg-gray-200" href="/billing">Topup</a></li>
+                <li><a className="dropdown-item px-4 py-2 hover:bg-gray-200" href="/billing/history">History</a></li>
+              </ul>
+            </li>
+            <li className="nav-item dropdown relative">
+              <a className="nav-link drop hover:text-gray-400 flex gap-2" href="#" onClick={() => setShowSupportDropdown(!showSupportDropdown)}>Support <FontAwesomeIcon icon="fa-solid fa-caret-down" /></a>
+              <ul className={`${showSupportDropdown ? 'block' : 'hidden'} dropdown-menu absolute left-0 mt-2 w-40 bg-white text-black`}>
+                <li><a className="dropdown-item px-4 py-2 hover:bg-gray-200" href="/support">My tickets</a></li>
+                <li><a className="dropdown-item px-4 py-2 hover:bg-gray-200" href="/support/create">Create ticket</a></li>
+              </ul>
+            </li>
+            <li className="nav-item dropdown relative">
+              <a className="nav-link drop hover:text-gray-400 flex gap-2" href="#" onClick={() => setShowProfileDropdown(!showProfileDropdown)}>Profile <FontAwesomeIcon icon="fa-solid fa-caret-down" /></a>
+              <ul className={`${showProfileDropdown ? 'block' : 'hidden'} dropdown-menu absolute left-0 mt-2 w-40 bg-white text-black`}>
+                <li><a className="dropdown-item px-4 py-2 hover:bg-gray-200" href="/usercp/main/details">Settings</a></li>
+                <li><a className="dropdown-item px-4 py-2 hover:bg-gray-200" href="/login">Logout</a></li>
+              </ul>
+            </li>
+            <Dialog isOpen={isModalOpen} onClose={closeDialog} />
+          </ul>
 
-      
-        <a ><FontAwesomeIcon icon="fa-solid fa-wallet" /><span>{balance}</span></a>
-        <Link href="./billing" style={{ padding: "0.38rem 0 0.38rem 0.88rem" }}>
-          <FontAwesomeIcon icon="fa-solid fa-swatchbook" /><span className='btn'>Top Up Balance</span>
-        </Link>
-        <Link href="./cart"><FontAwesomeIcon icon="fa-solid fa-newspaper" /><span>My Orders</span></Link>
-        <Dropdown label="" dismissOnClick={true} renderTrigger={() =>  <div className="profile-pic w-4"> <img src="https://prozone.cc/_nuxt/img/header2_user.1803c70.png" alt="" /></div>}>
-      <Dropdown.Item icon={HiViewGrid} href='./profile'>Profile</Dropdown.Item>
-      <Dropdown.Item icon={HiCog}  href='./rules'>Rules</Dropdown.Item>
-      <Dropdown.Divider />
-      <Dropdown.Item icon={HiLogout}  href='./login'>Sign out</Dropdown.Item>
-    </Dropdown>
-      </div>  </div>
+          {/* Balance Display */}
+          {/* <div className="flex items-center">
+            <span className="balance text-lg font-semibold">Balance: ${balance}</span>
+          </div> */}
+        </div>
+      </div>
     </div>
   );
-};
+}
 
 export default HorizontalNav;

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import "./page.css";
-import VerticalNav from '../home/verticalnav';
+
 import HorizontalNav from '../home/horizontal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -11,10 +11,8 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { faTwitter, faFontAwesome } from '@fortawesome/free-brands-svg-icons';
 library.add(fas, faTwitter, faFontAwesome);
 import Modal from "./modal";
-
 const Cart = () => {
   const [transactions, setTransactions] = useState([]);
-  
   const [isloader, setIsloader] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -28,23 +26,33 @@ const Cart = () => {
   
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}api/transactions`)
+    const username = localStorage.getItem('username');
+
+    fetch(`/api/transactions?username=${encodeURIComponent(username)}`, {
+      method: 'GET',
+      credentials: 'include', // Include credentials in the request
+    })
       .then(response => response.json())
       .then(data => {
         if (Array.isArray(data)) {
           setTransactions(data);
+          console.log(data);
+          
         } else {
           console.error('Expected an array but received:', data);
         }
       })
       .catch(error => console.error('Error fetching transactions:', error));
+    
   }, []);
 
-  const handleItems = (transactionId , purchase_type) => {
+  const handleItems = (transactionId, purchase_type) => {
     setIsloader(true);
-    fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/api/transaction/${transactionId}`, {
+    const username = localStorage.getItem('username');
+    
+    fetch(`/api/transaction/${transactionId}?username=${username}`, {
       method: 'GET',
-      credentials: 'include' // Include credentials in the request
+      credentials: 'include', // Include credentials in the request
     })
       .then(response => response.json())
       .then(data => {
@@ -52,34 +60,41 @@ const Cart = () => {
         setSelectedTransaction(data);
         setIsloader(false);
         setOpen(true);
-      if(purchase_type == "credit card"){
-        setCard(true)
-        setBin(false)
-      }else{
-        setCard(false)
-        setBin(true)
-      }
         
+        if (purchase_type === "credit card") {
+          setCard(true);
+          setBin(false);
+        } else {
+          setCard(false);
+          setBin(true);
+        }
       })
       .catch(error => {
         console.error('Error fetching transaction details:', error);
-        setLoading(false);
+        setIsloader(false);
         setOpen(true);
-        setCard(selectedTransaction && selectedTransaction.creditCardInfo && selectedTransaction.creditCardInfo.bins == 0);
-        setBin(selectedTransaction && selectedTransaction.creditCardInfo && selectedTransaction.creditCardInfo.bins == 1);
+        setCard(selectedTransaction && selectedTransaction.creditCardInfo && selectedTransaction.creditCardInfo.bins === 0);
+        setBin(selectedTransaction && selectedTransaction.creditCardInfo && selectedTransaction.creditCardInfo.bins === 1);
       });
   };
+  
 
 
 
 
   return (
     <div className="app">
-      <VerticalNav />
       <div className="main-content">
         <HorizontalNav />
-        <div className="main-form">
+        <div className='flex'>
+
+        
+        <VerticalNav />
+        <div className={nav ? 'main-form hide' : 'main-form nohide'}>
           <h1 className='text-xl'>Your Orders</h1>
+          <div className='overflow-auto'>
+
+        
           {isloader && ( 
         <h1>Loading.....</h1>
       )}
@@ -107,6 +122,7 @@ const Cart = () => {
               ))}
             </tbody>
           </table>
+          </div></div>
           
           <Modal isOpen={open} onClose={handleClose}>
           <div className="main">

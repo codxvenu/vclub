@@ -1,7 +1,7 @@
 
 
 body {
-  background: linear-gradient(252deg, #0b243a, #030b12);
+  background: black;
   color: white;
   font-family: sans-serif;
   display: flex;
@@ -13,9 +13,7 @@ body {
 
 .login-container {
   border-radius: 10px;
- display:flex;
-  width: 760px;
-  background-color: #0f131e;
+  max-width: 1140px;
 }
 .img {
   width: 50%;
@@ -26,13 +24,20 @@ img{
   height: 100%;
 }
 .form-container {
-  background-color: #0f131e;
-  padding: 30px;
-  border-radius: 10px;
-  width: 50%;
+  padding-right: 15px;
+  padding-left: 15px;
 }
 
-
+form{
+  display: flex;
+    flex-direction: column;
+    gap: 11px;
+    margin-top: 25px;
+    align-items: center;
+}
+input::placeholder{
+  font-weight: lighter;
+}
 h2  {
   text-align: center;
   margin-bottom: 30px;
@@ -40,31 +45,28 @@ h2  {
   font-weight: 800;
 }
 
-input {
-  width: 85%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: none;
+ input {
+  border: 1px solid #aed1b2;
+  background: none;
   border-radius: 5px;
-  background-color: #3838386e;
-  color: white;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  -webkit-transition: all 0.30s ease-in-out;
-  -moz-transition: all 0.30s ease-in-out;
-  -ms-transition: all 0.30s ease-in-out;
-  -o-transition: all 0.30s ease-in-out;
-  outline: none;
+  color: #c8d2bf;
+  width: 217px;
+  height: 40px;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 0 10px;
+}
+.form-group input{
+  width: 110px;
+    display: inline-block;
 }
 
-span{
+.form-group span{
   width: 15%;
   padding: 10px;
   margin-bottom: 15px;
   border: none;
   border-radius: 5px;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
   background-color: #3838386e;
   display: inline-block;
   color: white;
@@ -83,21 +85,17 @@ input:focus::placeholder  {
   color: white; /* Change placeholder color on focus */
 }
 .submit {
-  width: 100%;
-  padding: 12px;
-  border: none;
-  border-radius: 5px;
-  background-color: #ff6600;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s;
+  border: 2px solid #00a3df;
+  background: none;
+  border-radius: 18px;
+  color: #fff;
+  font-size: 16px;
+  min-width: 110px;
+  padding: 6px 12px;
 }
 .form-group{
   display: flex;
-}
-button:hover {
-  background-color: #e87c34;
+  gap: 10px;
 }
 
 a {
@@ -106,9 +104,6 @@ a {
   transition: color 0.3s;
 }
 
-a:hover {
-  color: #ff6600;
-}
 
 .captcha-container {
   display: flex;
@@ -120,16 +115,32 @@ a:hover {
   width: 50%;
   height: 45px;
   object-fit: cover;
-  margin-right: 10px;
 }
 p{
   margin-top: 20px;
   text-align: center;
 }
 p a{
-  color: #ff6600;
+ 
   font-weight: 800;
 }
 .Toastify__toast{
     width: auto;
+}
+.login{
+  background: rgba(124, 252, 0, 0.8);
+}
+.register{
+
+}
+@media only screen and (max-width: 768px){
+.img{
+  display: none;
+}
+.login-container{
+  display: block;
+}
+.form-container{
+  width: 100%;
+}
 }

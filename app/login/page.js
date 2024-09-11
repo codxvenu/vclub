@@ -21,7 +21,7 @@ function LoginSignup() {
   const [email, setEmail] = useState("");
   const [mdsCode, setMdsCode] = useState("");
   const [captcha, setCaptcha] = useState("");
-  const [captchaUrl, setCaptchaUrl] = useState(`${process.env.NEXT_PUBLIC_BASE_API_URL}/captcha`);
+  const [captchaUrl, setCaptchaUrl] = useState(`http://localhost:5000/api/captcha`);
   const [isLoading, setIsLoading] = useState(false); // Loading state
   const router = useRouter(); // Use useRouter from next/router
 
@@ -30,7 +30,7 @@ function LoginSignup() {
   }, []);
 
   const fetchCaptcha = () => {
-    setCaptchaUrl(`${process.env.NEXT_PUBLIC_BASE_API_URL}/captcha?${Date.now()}`);
+    setCaptchaUrl(`http://localhost:5000/api/captcha?${Date.now()}`);
   };
 
   const handleUsernameChange = (event) => {
@@ -62,7 +62,7 @@ function LoginSignup() {
     event.preventDefault();
     setIsLoading(true); // Set loading state
 
-    const url = isLogin ? `${process.env.NEXT_PUBLIC_BASE_API_URL}/login` : `${process.env.NEXT_PUBLIC_BASE_API_URL}/signup`;
+    const url = isLogin ? `http://localhost:5000/api/login` : `http://localhost:5000/api/signup`;
     const data = isLogin ? { username, password, mdsCode, captcha } : { username, password, email };
 
     try {
@@ -80,7 +80,11 @@ function LoginSignup() {
       if (isLogin) {
         if (result.message === "Login successful") {
           toast.success(result.message);
-          router.push("/home"); // Redirect to home page after login
+          router.push("/billing"); // Redirect to home page after login
+          localStorage.setItem("username", username);
+          localStorage.setItem("role", result.role);
+          
+          
         } else {
           toast.error(result.message);
           fetchCaptcha(); // Refresh the CAPTCHA on error
@@ -100,18 +104,20 @@ function LoginSignup() {
       setIsLoading(false); // Reset loading state
     }
   };
+  
+  
 
   return (
     <div className="login-container">
      
       <ToastContainer />
-      <div className="form-container">
-        <h2>{isLogin ? "SIGN IN" : "SIGN UP"}</h2>
+      <span className="leading-loose block  mt-4 text-slate-300">Registration: <strong>Open
+      </strong> , Registration Fee: <strong>$50
+        </strong></span>
+      <div className="form-container ">
+     
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <span className="text-white input-ico">
-            <FontAwesomeIcon icon={faUser} />
-            </span>
+         
          
             <input
               type="text"
@@ -121,9 +127,9 @@ function LoginSignup() {
               placeholder="Enter Username"
               required
             />
-          </div>
-          <div className="form-group">
-           <span className="input-ico"><FontAwesomeIcon icon="fa-solid fa-lock" /></span>
+         
+         
+           
             <input
               type="password"
               id="password"
@@ -132,10 +138,10 @@ function LoginSignup() {
                placeholder="Enter Password"
               required
             />
-          </div>
+        
           {!isLogin && (
-            <div className="form-group">
-           <span className="input-ico"><FontAwesomeIcon icon="fa-regular fa-envelope" /></span>
+           
+           
               <input
                 type="email"
                 id="email"
@@ -144,41 +150,38 @@ function LoginSignup() {
                  placeholder="Enter Email"
                 required
               />
-            </div>
-          )}
-          {isLogin && (
-            <div className="form-group">
-             <span className="input-ico"><FontAwesomeIcon icon="fa-solid fa-bars-progress" /></span>
-              <input
-                type="text"
-                id="mds-code"
-                value={mdsCode}
-                onChange={handleMdsCodeChange}
-                 placeholder="Enter MDS CODE"
-                required
-              />
-            </div>
+   
           )}
           {isLogin && (
             <div className="form-group flex flex-row .captcha-container">
-              <img className="captcha-image" src={captchaUrl} alt="CAPTCHA" />
               <input
                 type="text"
                 id="captcha"
                 value={captcha}
                 onChange={handleCaptchaChange}
+                placeholder="Captcha"
                 required
               />
+              <img className="captcha-image" src={captchaUrl} alt="CAPTCHA" />
+              
             </div>
           )}
-          <button className="submit" type="submit" disabled={isLoading}>
-            {isLoading ? "Processing..." : isLogin ? "SIGN IN" : "SIGN UP"}
+          <div className="flex">
+          <button className="submit login" type="submit" disabled={isLoading}>
+           Login
           </button>
+          <button className="submit register" type="button"  disabled={isLoading}>
+            <a href="/login/register">Registration</a>
+          </button>
+          </div>
+          {isLogin && (
+            <div className="forgot-password">
+              <a href="https://t.me/vclub_x">Forgot Password?</a>
+            </div>
+          )}
+         
         </form>
-        <p>{isLogin ? "Don't have an account?" : "Already have an account?"} <a href="#" onClick={() => setIsLogin(!isLogin)}>{isLogin ? "SIGN UP" : "SIGN IN"}</a></p>
-      </div>
-      <div className="img">
-   <img src="https://prozone.cc/_nuxt/img/img-sign-in.9512930.jpg" alt="" />   
+       
       </div>
     </div>
   );

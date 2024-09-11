@@ -5,6 +5,7 @@
   
   .main-content {
     flex-grow: 1;
+    width: 100vw;
   }
   .main-form {
     padding: 47px 30px 10px 30px;
@@ -12,6 +13,7 @@
     color:var(--text-color);
     border-radius: 25px 0 0 0;
     min-height: 92vh;
+    width: calc(100% - 220px);
 }
 table {
     width: 100%;
@@ -81,3 +83,17 @@ table {
   .main h1{
     color: white;
   }
+  @media only screen and (max-width: 768px){
+    .main-form {
+      padding: 47px 30px 10px 30px;
+      background: var(--background2);
+      color: var(--text-color);
+      border-radius: 0;
+      max-height: 92vh;
+      overflow-y: scroll;
+      width: 100vw;
+  }
+  .grid-cols-3{
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}

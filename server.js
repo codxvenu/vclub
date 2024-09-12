@@ -520,14 +520,14 @@ app.get('/api/card/order', (req, res) => {
   if (!username) {
     return res.status(401).send({ message: 'User not authorized' });
   }
-  let query = 'SELECT * FROM orders WHERE user = ? type = ?';
-  db.query(query, [username,"credit card"], (err, results) => {
+  let query = 'SELECT * FROM orders WHERE user = ? AND type = ?';
+  db.query(query, [username, "credit card"], (err, results) => {
     if (err) {
       console.error('Database error:', err);
       return res.status(500).json({ error: err.message });
     }
     res.json(results);
-  });
+  });  
 });
 app.get('/api/sock/order', (req, res) => {
   const { username } = req.query;

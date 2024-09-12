@@ -520,7 +520,7 @@ app.get('/api/card/order', (req, res) => {
   if (!username) {
     return res.status(401).send({ message: 'User not authorized' });
   }
-  let query = 'SELECT * FROM orders WHERE user = ? type = creditcard';
+  let query = 'SELECT * FROM orders WHERE user = ? type = credit card';
   db.query(query, [username], (err, results) => {
     if (err) {
       console.error('Database error:', err);

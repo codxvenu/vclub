@@ -14,6 +14,7 @@ const BillingPage = () => {
   const walletAddress = 'TADdR7DWGDtFziQ18iRhwQoahNqPk2gwVt'; // Replace with your actual wallet address
   const [isloader, setIsloader] = useState(false);
   const [data, setData] = useState([]);
+  const [tab, setTab] = useState("bitcoin");
   
   const handleInputChange = (e) => {
     setTransactionId(e.target.value);
@@ -41,8 +42,6 @@ const BillingPage = () => {
       .then((data) => setData(data))
       .catch((error) => console.error('Error fetching transaction data:', error));
   }, []);
-  
-  
   const handleSubmit = async () => {
     localStorage.setItem('username', "user1");
     const username = localStorage.getItem('username');
@@ -71,19 +70,31 @@ const BillingPage = () => {
             <ul className="flex border-gray-200">
               <li className="mr-1">
                 <a
-                  className="inline-block py-2 px-4 text-blue-500 border-b-2 border-blue-500 active"
+                  className={tab=="bitcoin" ? "inline-block py-2 px-4 text-blue-500 border-b-2 border-blue-500 active" : "inline-block py-2 px-4"}
                   data-toggle="tab"
                   href="#bitcoin"
                   role="tab"
+                  onClick={() => setTab("bitcoin")}
                 >
                   <i className="fa fa-bitcoin"></i> BITCOIN
+                </a>
+              </li>
+              <li className="mr-1">
+                <a
+                  className={tab=="usdt" ? "inline-block py-2 px-4 text-blue-500 border-b-2 border-blue-500 active" : "inline-block py-2 px-4"}
+                  data-toggle="tab"
+                  href="#usdt"
+                  role="tab"
+                  onClick={() => setTab("usdt")}
+                >
+                  <i className="fa fa-bitcoin"></i> USDT
                 </a>
               </li>
             
             </ul>
 
             <div className="tab-content">
-              <div id="bitcoin" className="tab-pane">
+              <div id="bitcoin" className={tab==="bitcoin"? "tab-pane block" :"tab-pane hidden"}>
                 <div className="card p-4 shadow-md rounded">
                   <div className="card-body">
                     <h4 className="text-lg font-semibold">
@@ -101,7 +112,7 @@ const BillingPage = () => {
                     <br />
                     <div className="alert alert-success bg-green-100 text-green-800 p-4 rounded">
                       <div id="btc-address" className="text-2xl font-bold">
-                        bc1q9hh5nzndtw6hq6ecqfsxskdjszh7kky6qaeym6
+                      bc1qlp6daj5uqx9zn03cg4pdsqpu8fgzajw6d9t2gl
                       </div>
                     </div>
                     <div className="flex para">
@@ -124,7 +135,105 @@ const BillingPage = () => {
                           id="qr-bitcoin"
                           className="w-48 h-48 border border-gray-300 relative flex items-center justify-center"
                         >
-                          <QRCode value="bc1q9hh5nzndtw6hq6ecqfsxskdjszh7kky6qaeym6" size={200} />
+                          <QRCode value="bc1qlp6daj5uqx9zn03cg4pdsqpu8fgzajw6d9t2gl" size={200} />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="farm flex flex-col g-5 ml-20 mt-10">
+                      <p>Once you have deposited funds, please provide the sender ID below:</p>
+                      <div className="transaction-id">
+                        <input
+                          type="text"
+                          value={transactionId}
+                          onChange={handleInputChange}
+                          placeholder="Enter sender address"
+                        />
+                        <button onClick={handleSubmit}>Submit</button>
+                        {isloader && <h1>Sending.....</h1>}
+                      </div>
+                    </div>
+                    <div className="alert p-4 rounded mt-4">
+                      Transactions waiting confirmation:
+                      <br />
+                      <div id="bitcoin_pending" className="mt-2">
+                        <div className="overflow-x-auto">
+                          <table className="min-w-full border border-gray-200 rounded">
+                            <thead>
+                              <tr className="border-b border-gray-200">
+                                <th className="py-2 px-4 text-left">Date</th>
+                                <th className="py-2 px-4 text-left">Address</th>
+                                <th className="py-2 px-4 text-left">Amount</th>
+                                <th className="py-2 px-4 text-left">Status</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {data && data.length === 0 ? (
+                                <tr>
+                                  <td colSpan="4" className="py-2 px-4 text-center text-gray-500">
+                                    No unconfirmed transactions yet
+                                  </td>
+                                </tr>
+                              ) : (
+                                data.map((transaction, index) => (
+                                  <tr key={index}>
+                                    <td className="py-2 px-4 text-left">{transaction.date}</td>
+                                    <td className="py-2 px-4 text-left">{transaction.address}</td>
+                                    <td className="py-2 px-4 text-left">{transaction.amount}</td>
+                                    <td className="py-2 px-4 text-left">{transaction.status == "paid" ? <span className='text-green-300'>Confirmed</span> : <span className='text-red-400'>Pending</span> } </td>
+                                  </tr>
+                                ))
+                              )}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="usdt" className={tab==="usdt"? "tab-pane block" :"tab-pane none hidden"}>
+                <div className="card p-4 shadow-md rounded">
+                  <div className="card-body">
+                    <h4 className="text-lg font-semibold">
+                      Please send your payment of USDT to USDT  address:
+                    </h4>
+                    <b>
+                      <span className=" text-xl">
+                        Notice: Every time, when you want to Topup, please, check address on this page. It will be changed every time after each transaction.
+                      </span>
+                    </b>
+                    <br />
+                    <br />
+                    <b>Exchange fee is 3%. You need to 2 confirmations of transaction in the system to deposit money to your account.</b>
+                    <br />
+                    <br />
+                    <div className="alert alert-success bg-green-100 text-green-800 p-4 rounded">
+                      <div id="btc-address" className="text-2xl font-bold">
+                      TS4K6ZAmtYaocSWTPszJUUqQHNHsmMHY1c
+                      </div>
+                    </div>
+                    <div className="flex para">
+                      <div className="flex-1 text-white">
+                        <h4 className="text-lg font-bold">1BTC = 61941$</h4>
+                        Payments from Bitcoin's take about 10-15 mins, please contact support if you don't receive your funds only after 15 mins.
+                        <br />
+                        <br />
+                        To fill up your shop balance with BTC payment you need to:
+                        <br />
+                        <br />
+                        1. Send coins to your address shown below.
+                        <br />
+                        2. After your transaction(s) send transaction id - your balance will be added to your account automatically.
+                        <br />
+                        <br />
+                      </div>
+                      <div className="w-1/3">
+                        <div
+                          id="qr-bitcoin"
+                          className="w-48 h-48 border border-gray-300 relative flex items-center justify-center"
+                        >
+                          <QRCode value="TS4K6ZAmtYaocSWTPszJUUqQHNHsmMHY1c" size={200} />
                         </div>
                       </div>
                     </div>

@@ -808,8 +808,7 @@ app.post('/api/purchase', (req, res) => {
         const updateorder = `insert into orders (code,quantity,total_price,user,type,cc_num) values(?,1,?,?,?,?)`;
         const updatetransaction = `insert into transaction (code,method,memo,fee,amount,pay,befor,after,status,user) values(?,'CCS',?,0,?,?,?,?,'paid',?)`
         // Calculate total price
-        const updatecart = `UPDATE cart SET user = ? WHERE ccnum = ?`
-        // Calculate total price
+        const updatecart = `DELETE FROM cart WHERE user = ? AND ccnum = ?`;
         let totalPrice = 0;
         let cc_num = 0;
         let type = 'credit card';

@@ -798,8 +798,8 @@ app.post('/api/purchase', (req, res) => {
               INSERT INTO buyed (
  bin, cvv, yymm, country, bank, level, type, holder,
   city, state, zip, base, price, addr, email, phone, dob, mmn, sortCode,
-  ip, checker, additionalInfo,ccnum, user, bins,code
-) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,0);
+  ip, checker, additionalInfo,ccnum, user, code,bins
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,0);
 `;
 
         const updateBalanceQuery = `UPDATE users SET balance = balance - ? WHERE username = ?`;

@@ -22,6 +22,7 @@ app.use(session({
 app.use(bodyParser.json());
 const corsOptions = {
   origin: process.env.FRONTEND_URL, // Use the environment variable
+  // origin: "http://localhost:3000",
   credentials: true
 };
 
@@ -1235,6 +1236,32 @@ app.get('/api/view/:id', (req, res) => {
 
     if (results.length === 0) {
       return res.status(404).send({ message: 'Ticket not found' });
+    }
+
+    // If ticket is found, send the data
+    return res.status(200).send(results[0]);
+  });
+});
+app.get('/api/order/view/:id', (req, res) => {
+  const username = req.query.username;
+  const id = req.params.id;
+
+  console.log(username,id);
+  
+
+  if (!username) {
+    return res.status(401).send({ message: 'User not authorized' });
+  }
+
+  const transactionQuery = 'SELECT * FROM buyed WHERE code = ?';
+  db.query(transactionQuery, [id], (err, results) => {
+    if (err) {
+      console.error('Error fetching ticket: ', err);
+      return res.status(500).send({ message: 'Internal Server Error' });
+    }
+
+    if (results.length === 0) {
+      return res.status(404).send({ message: 'details not found' });
     }
 
     // If ticket is found, send the data

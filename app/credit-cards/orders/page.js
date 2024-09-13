@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect, useRef } from 'react';
-
+import Veiw from './veiw';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import "./page.css"
@@ -12,12 +12,12 @@ import { faTwitter, faFontAwesome, faTelegram } from '@fortawesome/free-brands-s
 library.add(fas, faTwitter, faFontAwesome)
 import axios from 'axios';
 const CreditCardOrders = () => {
-
+  const [id, setId] = useState(0);
   const [data, setData] = useState([]);
  
   const [selectedRows, setSelectedRows] = useState(new Set());
 
-  const [balance, setBalance] = useState(0);
+  const [vdata, setVdata] = useState([]);
   const [tcost, setTCost] = useState(0);
 
   // Handle page change
@@ -107,8 +107,6 @@ const CreditCardOrders = () => {
       if (Array.isArray(response.data)) {
         setData(response.data);
         console.log(data[0]);
-
-        console.log(data[0].price);
       } else {
         console.error('Expected an array response', data);
       }
@@ -137,7 +135,7 @@ const CreditCardOrders = () => {
         console.log("username is undefined");
       } else {
         try {
-          const response = await axios.get(`/api/balance`, { params: { username }, withCredentials: true });
+          const response = await axios.get(`/balance`, { params: { username }, withCredentials: true });
           setBalance(response.data.balance);
         } catch (error) {
           if (error.response && error.response.status === 401) {
@@ -225,7 +223,6 @@ const handledata = async (transactionId) => {
   })
   .then(data => {
     // Process your JSON data here if needed
-    console.log('Data:', data);
   })
   .catch(error => {
     console.error('Error:', error);
@@ -236,6 +233,7 @@ const handledata = async (transactionId) => {
     <div className="app">
       <div className="main-content">
         <HorizontalNav />
+        {id === 0 && (
         <div className="container-order mx-auto mt-20">
   <div >
     <h3 className="text-2xl uppercase font-semibold">CCS Orders</h3>
@@ -285,7 +283,7 @@ const handledata = async (transactionId) => {
                 checked={selectedRows.has(item.code)}
                 onChange={() => handleRowSelect(item.code)}
               /></td>
-                  <td className='w-20 order' ><a href={`/orders/ccs/order/${item.id}`}>{item.code}</a></td>
+                  <td className='w-20 order' > <a onClick={() => setId(item.code)}>{item.code}</a></td>
                   <td >{item.created}</td>
                   <td className='w-6'>{item.quantity}</td>
                   <td className='w-20'>{item.total_price}</td>
@@ -297,8 +295,11 @@ const handledata = async (transactionId) => {
       </div>
     </div>
   </div>
-  <div className="h-24"></div>
 </div>
+)}
+{id !== 0 && (
+          <Veiw id={id} />
+        )}
 
       </div>
 

@@ -798,7 +798,7 @@ app.post('/api/purchase', (req, res) => {
               INSERT INTO buyed (
  bin, cvv, yymm, country, bank, level, type, holder,
   city, state, zip, base, price, addr, email, phone, dob, mmn, sortCode,
-  ip, checker, additionalInfo,ccnum, user, bins
+  ip, checker, additionalInfo,ccnum, user, bins,code
 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,0);
 `;
 
@@ -812,6 +812,7 @@ app.post('/api/purchase', (req, res) => {
         let totalPrice = 0;
         let cc_num = 0;
         let type = 'credit card';
+        const code =   generateTransactionId();
         const values = info.map(item => {
           totalPrice += item.price; // Sum up total price
           cc_num = item.ccnum;
@@ -839,7 +840,8 @@ app.post('/api/purchase', (req, res) => {
             item.checker,    // `checker`
             item.additionalInfo, // `additionalInfo`
             item.ccnum,// `bins`
-            username
+            username,
+            code
           ];
         });
 
@@ -902,7 +904,7 @@ app.post('/api/purchase', (req, res) => {
         }
 
         // Update user balance
-        const code =   generateTransactionId()
+       
         await new Promise((resolve, reject) => {
           connection.query(updatetransaction, [code,"CCS || PURCHASE 1pcs", totalPrice,totalPrice,user.balance,user.balance - totalPrice, username], (error) => {
             if (error) reject(error);

@@ -505,7 +505,7 @@ app.get('/api/card/cart', (req, res) => {
   if (!username) {
     return res.status(401).send({ message: 'User not authorized' });
   }
-  let query = 'SELECT * FROM cart WHERE user = ? and ';
+  let query = 'SELECT * FROM cart WHERE user = ?';
   db.query(query, [username], (err, results) => {
     if (err) {
       console.error('Database error:', err);

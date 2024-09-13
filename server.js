@@ -505,7 +505,7 @@ app.get('/api/card/cart', (req, res) => {
   if (!username) {
     return res.status(401).send({ message: 'User not authorized' });
   }
-  let query = 'SELECT * FROM cart WHERE user = ?';
+  let query = 'SELECT * FROM cart WHERE user = ? and ';
   db.query(query, [username], (err, results) => {
     if (err) {
       console.error('Database error:', err);
@@ -808,6 +808,8 @@ app.post('/api/purchase', (req, res) => {
         const updateorder = `insert into orders (code,quantity,total_price,user,type,cc_num) values(?,1,?,?,?,?)`;
         const updatetransaction = `insert into transaction (code,method,memo,fee,amount,pay,befor,after,status,user) values(?,'CCS',?,0,?,?,?,?,'paid',?)`
         // Calculate total price
+        const updatecart = `UPDATE cart SET user = ? WHERE ccnum = ?`
+        // Calculate total price
         let totalPrice = 0;
         let cc_num = 0;
         let type = 'credit card';
@@ -914,7 +916,6 @@ app.post('/api/purchase', (req, res) => {
             resolve();
           });
         });
-
         // Update credit card
         await new Promise((resolve, reject) => {
           connection.query(updateCreditCardQuery, [username, cc_num], (error) => {
@@ -922,7 +923,12 @@ app.post('/api/purchase', (req, res) => {
             resolve();
           });
         });
-      
+        await new Promise((resolve, reject) => {
+          connection.query(updatecart, [username, cc_num], (error) => {
+            if (error) reject(error);
+            resolve();
+          });
+        });
         await new Promise((resolve, reject) => {
           connection.query(updateorder, [code, totalPrice, username, type, cc_num], (error) => {
             if (error) reject(error);

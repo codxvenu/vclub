@@ -181,7 +181,7 @@ app.post('/api/signup', (req, res) => {
 
       sendMdsCodeEmail(email, mdsCode)
         .then(() => {
-          res.status(200).send({ message: 'Signup successful. Check your email for your MDS code.', mdsCode });
+          res.status(200).send({ message: 'Signup successful.' });
           userid = username;
         })
         .catch((error) => {
@@ -194,7 +194,7 @@ app.post('/api/signup', (req, res) => {
 
 // Login route
 app.post('/api/login', (req, res) => {
-  const { username, password, mdsCode, captcha } = req.body;
+  const { username, password, captcha } = req.body;
   console.log('Received CAPTCHA:', captcha); // Debug line
   console.log('Stored CAPTCHA:', req.session.captcha); // Debug line
 
@@ -204,7 +204,7 @@ app.post('/api/login', (req, res) => {
   }
 
   const sql = 'SELECT * FROM users WHERE username = ? AND password = ?';
-  db.query(sql, [username, password, mdsCode], (err, results) => {
+  db.query(sql, [username, password], (err, results) => {
     if (err) {
       console.error('Database error:', err);
       return res.status(500).send(err);

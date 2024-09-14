@@ -95,7 +95,7 @@ input:focus::placeholder  {
 }
 .form-group{
   display: flex;
-  gap: 10px;
+  width: 220px;
 }
 button:hover {
   background-color: #e87c34;
@@ -118,9 +118,11 @@ a:hover {
 }
 
 .captcha-image {
-  width: 50%;
-  height: 45px;
-  object-fit: cover;
+  height: 40px;
+  margin: 0 0 0 5px;
+  border: 0px;
+  border-radius: 8px;
+  vertical-align: middle;
 }
 p{
   margin-top: 20px;

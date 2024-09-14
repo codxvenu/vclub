@@ -76,7 +76,7 @@ const BillingPage = () => {
                   role="tab"
                   onClick={() => setTab("bitcoin")}
                 >
-                 <span className='flex gap-2'><img src='https://cdn-icons-png.flaticon.com/512/5968/5968260.png'  alt='btc' className='w-4'/><h2>BITCOIN</h2> </span> 
+                 <span className='flex gap-2'><img src='https://cdn-icons-png.flaticon.com/512/5968/5968260.png'  alt='btc' className='lg:w-4 w-8'/><h2 className='text-base'>BITCOIN</h2> </span> 
                 </a>
               </li>
               <li className="mr-1">
@@ -87,7 +87,7 @@ const BillingPage = () => {
                   role="tab"
                   onClick={() => setTab("usdt")}
                 >
-               <span className='flex gap-2'><img src='https://cdn-icons-png.flaticon.com/512/15207/15207964.png' className='w-4'></img>  <h2>USDT</h2></span> 
+               <span className='flex gap-2'><img src='https://cdn-icons-png.flaticon.com/512/15207/15207964.png' className='lg:w-4 w-8'></img>  <h2 className='text-base'>USDT</h2></span> 
                 </a>
               </li>
             

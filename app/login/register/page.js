@@ -78,9 +78,9 @@ function LoginSignup() {
       const result = await response.json();
 
       if (isLogin) {
-        if (result.message === "Login successful") {
+        if (result.message === "SignUp successful") {
           toast.success(result.message);
-          router.push("/billing"); // Redirect to home page after login
+          router.push("/login"); // Redirect to home page after login
           localStorage.setItem("username", username);
           localStorage.setItem("role", result.role);
           
@@ -114,6 +114,7 @@ function LoginSignup() {
       <span className="leading-loose block  mt-4 text-slate-300">Registration: <strong>Open
       </strong> , Registration Fee: <strong>$50
         </strong></span>
+        <span className="text-red-500">Please note inactive users without balance will be deletedafter several days</span>
       <div className="form-container ">
      
         <form onSubmit={handleSubmit}>

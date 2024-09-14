@@ -167,7 +167,7 @@ function LoginSignup() {
               
             </div>
           )}
-          <div className="flex">
+          <div className="flex gap-2">
           <button className="submit login" type="submit" disabled={isLoading}>
            Login
           </button>
@@ -177,7 +177,7 @@ function LoginSignup() {
           </div>
           {isLogin && (
             <div className="forgot-password">
-              Forgot your password use <a href="https://t.me/vclub_x " className="text-blue-500">this form</a>
+              Forgot your password<a href="https://t.me/vclub_x " className="text-blue-500">click here</a>
             </div>
           )}
          

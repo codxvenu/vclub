@@ -177,7 +177,7 @@ function LoginSignup() {
           </div>
           {isLogin && (
             <div className="forgot-password">
-              Forgot your password<a href="https://t.me/vclub_x " className="text-blue-500">click here</a>
+              Forgot your password<a href="https://t.me/vclub_x " className="text-blue-500 ml-1"> click here</a>
             </div>
           )}
          

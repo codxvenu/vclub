@@ -104,7 +104,7 @@ function HorizontalNav() {
             <li className="nav-item dropdown relative">
               <a className="nav-link drop hover:text-gray-400 flex gap-2" href="#" onClick={() => setShowProfileDropdown(!showProfileDropdown)}>Profile <FontAwesomeIcon icon="fa-solid fa-caret-down" /></a>
               <ul className={`${showProfileDropdown ? 'block' : 'hidden'} dropdown-menu absolute left-0 mt-2 w-40 bg-white text-black`}>
-                <li><a className="dropdown-item px-4 py-2 hover:bg-gray-200" href="/usercp/main/details">Settings</a></li>
+                <li><a className="dropdown-item px-4 py-2 hover:bg-gray-200" href="/profile/details">Settings</a></li>
                 <li><a className="dropdown-item px-4 py-2 hover:bg-gray-200" href="/login">Logout</a></li>
               </ul>
             </li>

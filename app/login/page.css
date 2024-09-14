@@ -57,7 +57,7 @@ h2  {
   padding: 0 10px;
 }
 .form-group input{
-  width: 110px;
+  /* width: 110px; */
     display: inline-block;
 }
 
@@ -95,7 +95,7 @@ input:focus::placeholder  {
 }
 .form-group{
   display: flex;
-  gap: 10px;
+  width: 220px;
 }
 
 a {
@@ -112,9 +112,11 @@ a {
 }
 
 .captcha-image {
-  width: 50%;
-  height: 45px;
-  object-fit: cover;
+  height: 40px;
+  margin: 0 0 0 5px;
+  border: 0px;
+  border-radius: 8px;
+  vertical-align: middle;
 }
 p{
   margin-top: 20px;

@@ -155,6 +155,7 @@ function LoginSignup() {
           {isLogin && (
             <div className="form-group flex flex-row .captcha-container">
               <input
+                className="w-2/4"
                 type="text"
                 id="captcha"
                 value={captcha}
@@ -162,7 +163,7 @@ function LoginSignup() {
                 placeholder="Captcha"
                 required
               />
-              <img className="captcha-image" src={captchaUrl} alt="CAPTCHA" />
+              <img className="captcha-image w-2/4" src={captchaUrl} alt="CAPTCHA" />
               
             </div>
           )}
@@ -176,7 +177,7 @@ function LoginSignup() {
           </div>
           {isLogin && (
             <div className="forgot-password">
-              <a href="https://t.me/vclub_x">Forgot Password?</a>
+              Forgot your password use <a href="https://t.me/vclub_x " className="text-blue-500">this form</a>
             </div>
           )}
          

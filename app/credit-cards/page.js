@@ -325,7 +325,7 @@ const CreditCardForm = () => {
       />
       <label
         htmlFor="cvv"
-        className="inline-block font-bold text-green-600"
+        className="inline-block font-bold"
       >
         Have CVV
       </label>
@@ -340,7 +340,7 @@ const CreditCardForm = () => {
       />
       <label
         htmlFor="Search_hasnocvv"
-        className="inline-block font-bold text-yellow-600"
+        className="inline-block font-bold"
       >
         WITHOUT CVV
       </label>
@@ -417,7 +417,7 @@ const CreditCardForm = () => {
       />
       <label
         htmlFor="Search_fullz"
-        className="inline-block font-bold text-red-600"
+        className="inline-block font-bold"
       >
         Fullz
       </label>

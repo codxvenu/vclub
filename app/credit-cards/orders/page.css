@@ -158,7 +158,7 @@
     .main-content{
       width: 100vw;
     }
-    .container-order{
+    .container-order,.container-veiw{
         margin: 0;
     }
   }

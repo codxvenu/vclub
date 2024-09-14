@@ -1029,11 +1029,12 @@ app.post('/api/purchase_bins', (req, res) => {
 
         const updateBalanceQuery = `UPDATE users SET balance = balance - ? WHERE username = ?`;
         const updateCreditCardQuery = `UPDATE bins SET user = ? WHERE bin = ?`;
-        const updateTransactionCardQuery = `INSERT INTO transaction (user_id, purchase_type, price) VALUES (?, ?, ?)`;
+        const updateTransactionCardQuery = `insert into transaction (code,method,memo,fee,amount,pay,befor,after,status,user) values(?,'BIN',?,0,?,?,?,?,'paid',?)`;
 
         // Calculate total price
         let totalPrice = 0;
         const type = "bin";
+        const code =   generateTransactionId();
         const values = info.map(item => {
           totalPrice += item.price; // Sum up total price
           return [
@@ -1118,7 +1119,7 @@ app.post('/api/purchase_bins', (req, res) => {
 
         // Record the transaction
         await new Promise((resolve, reject) => {
-          connection.query(updateTransactionCardQuery, [username, type, totalPrice], (error) => {
+          connection.query(updateTransactionCardQuery, [code,"BIN || PURCHASE 1pcs", totalPrice,totalPrice,user.balance,user.balance - totalPrice, username], (error) => {
             if (error) reject(error);
             resolve();
           });

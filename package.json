@@ -25,6 +25,8 @@
     "fast-csv": "^5.0.1",
     "flowbite-react": "^0.10.1",
     "fs": "^0.0.1-security",
+    "highcharts": "^11.4.8",
+    "highcharts-react-official": "^3.2.1",
     "install": "^0.13.0",
     "jsonwebtoken": "^9.0.2",
     "mysql": "^2.18.1",

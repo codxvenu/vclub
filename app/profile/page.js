@@ -67,52 +67,67 @@ const Profile = () => {
      
       <div className="main-content">
         <HorizontalNav />
-        <div className='flex flex-row'>
+        <div class="container-profile mx-auto mt-20">
 
-       
-        {/* <VerticalNav /> */}
-        <div className={'main-form grid grid-cols-2 g-5 nohide'}>
-          <div className='acc'>
-            <h1 className='text-3xl mb-5'>Account Info</h1>
-            <h1 className='mb-2'>UserName : {username}</h1>
-            <h1 className='mb-2'>Email : {email}</h1>
-            <h1 className='mb-2'>Registered : {creation}</h1>
-          </div>
-          <div className='acc'>
-            <h1 className='text-3xl mb-5'>Account Edit</h1>
-            <hr className='mb-10' />
-            <form onSubmit={handlePasswordChange} className='grid grid-cols-2'>
-              <div className="formbtn">
-                <label htmlFor="user">UserName</label>
-                <input name='user' type="text" readOnly value={username} />
-              </div>
-              <div className="formbtn">
-                <label htmlFor="Current">Current Password</label>
-                <input
-                  name='Current'
-                  type="password"
-                  value={currentPassword}
-                  onChange={(e) => setCurrentPassword(e.target.value)}
-                />
-              </div>
-              <div className="formbtn">
-                <label htmlFor="email">Email</label>
-                <input name='email' type="email" readOnly value={email} />
-              </div>
-              <div className="formbtn">
-                <label htmlFor="new">New Password</label>
-                <input
-                  name='new'
-                  type="password"
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                />
-              </div>
-              <div></div>
-              <button type="submit">Save Changes</button>
-            </form>
-          </div> </div>
+<div class="flex">
+  <div class="w-1/6">
+    <div class="card shadow-md rounded-md">
+      <div class="p-4">
+        <h5 class="text-lg font-semibold">Profile</h5>
+      </div>
+      <div class="p-4">
+        <ul class="space-y-2">
+          <li>
+            <a href="/profile" class="flex items-center text-blue-600 hover:underline">
+              <i class="icon-pencil mr-2"></i> Change password
+            </a>
+          </li>
+          <li>
+            <a href="/profile/details" class="flex items-center text-blue-600 hover:underline">
+              <i class="icon-user mr-2"></i> Details
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="w-5/6 ml-20">
+    <div>
+      <h4 class="text-xl font-semibold">Edit your profile:</h4>    </div>
+
+    <div>
+      <form class="p-6 shadow-md rounded-md" id="verticalForm" >
+        <input type="hidden" value="NE1fWXNUR1dVZmNuMUxjaFdqdzk3fkF3U3BWQXFLQksa0SH556p1SOyZzB8TPpUa3DHascALqNwj5NFDdURVGg==" name="YII_CSRF_TOKEN" />
+
+        <div class="mb-4">
+          <label class="blockfont-bold mb-2" for="editProfileForm_password">New password: <span class="text-red-600">*</span></label>
+          <input class="border border-gray-300 rounded-md p-2 " name="editProfileForm[password]" id="editProfileForm_password" type="password" maxlength="64" value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)} />
         </div>
+
+        <div class="mb-4">
+          <label class="blockfont-bold mb-2" for="editProfileForm_repeat_password">Repeat New password: <span class="text-red-600">*</span></label>
+          <input class="border border-gray-300 rounded-md p-2 " name="editProfileForm[repeat_password]" id="editProfileForm_repeat_password" type="password" />
+        </div>
+
+        <div class="mb-4">
+          <label class="blockfont-bold mb-2" for="editProfileForm_old_password">Old password: <span class="text-red-600">*</span></label>
+          <input class="border border-gray-300 rounded-md p-2 " name="editProfileForm[old_password]" id="editProfileForm_old_password" type="password" value={currentPassword}
+                  onChange={(e) => setCurrentPassword(e.target.value)}/>
+        </div>
+
+        <div class="flex space-x-4">
+          <button class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600" type="button" onClick={handlePasswordChange} name="yt0">Update</button>
+          <button class="bg-gray-300 text-black px-4 py-2 rounded-md hover:bg-gray-400" type="reset" name="yt1">Reset</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="mt-10"></div>
+</div>
+
       </div>
     </div>
   );

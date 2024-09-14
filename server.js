@@ -395,6 +395,20 @@ app.get('/api/base', (req, res) => {
     }
   });
 });
+app.get('/api/details', (req, res) => {
+  const { username } = req.query;
+  if (!username) {
+    return res.status(401).send({ message: 'User not authorized' });
+  }
+  const query = 'SELECT * FROM transaction where user = ?';
+  db.query(query,[username], (err, results) => {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      res.json(results);
+    }
+  });
+});
 app.get('/api/getusers', (req, res) => {
   const query = 'SELECT DISTINCT username FROM users';
   db.query(query, (err, results) => {
@@ -1623,4 +1637,4 @@ app.get('/api/payments', (req, res) => {
 // app.listen(port, () => {
 //   console.log(`Server is running on port: ${port}`);
 // });
-module.exports = app;
+// module.exports = app;

@@ -1,73 +1,35 @@
-import React, { useEffect, useState } from 'react';
-import { Line } from 'react-chartjs-2';
-import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend,
-} from 'chart.js';
+// Import necessary libraries
+import React from 'react';
+import Highcharts from 'highcharts';
+import HighchartsReact from 'highcharts-react-official';
 
-// Register components
-ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend
-);
+const MyChart = () => {
+  // Define the chart options
+  const options = {
+    chart: {
+      type: 'line',
+    },
+    title: {
+      text: 'Current month Averages Purchases',
+    },
+    xAxis: {
+      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    },
+    yAxis: {
+      title: {
+        text: 'Quantity',
+      },
+    },
+    series: [
+      {
+        name: 'All Periods',
+        data: [0,0,0,0,0,0,0,0,0,0,0,0],
+      },
+    ],
+  };
 
-const LinearGraph = () => {
-    const [data, setData] = useState({
-        labels: [],
-        datasets: [
-            {
-                label: 'Your activity on our service for a week',
-                data: [],
-                fill: false,
-                backgroundColor: 'rgba(75,192,192,0.4)',
-                borderColor: 'rgba(75,192,192,1)',
-            },
-        ],
-    });
-
-    useEffect(() => {
-      fetch(`/api/graph-data`) // Update URL if needed
-          .then(response => response.json())
-          .then(data => {
-              const labels = data.map(entry => entry.day);
-              const values = data.map(entry => entry.activity);
-  
-              setData({
-                  labels: labels,
-                  datasets: [
-                      {
-                          label: 'Your activity on our service for a week',
-                          data: values,
-                          fill: false,
-                          backgroundColor: 'rgba(75,192,192,0.4)',
-                          borderColor: 'rgba(75,192,192,1)',
-                      },
-                  ],
-              });
-          })
-          .catch(error => console.error('Error fetching data:', error));
-  }, []);
-  
-    const options = {
-        scales: {
-            y: {
-                beginAtZero: true,
-            },
-        },
-    };
-
-    return <Line data={data} options={options} />;
+  // Render the chart using HighchartsReact
+  return <HighchartsReact highcharts={Highcharts} options={options} />;
 };
 
-export default LinearGraph;
+export default MyChart;

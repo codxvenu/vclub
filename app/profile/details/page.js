@@ -158,7 +158,7 @@ const CreditCardOrders = () => {
       <div className="main-content">
         <HorizontalNav />
         <div className="container-setting mt-20">
-  <div className="grid grid-cols-12 gap-4">
+  <div className="lg:grid grid-cols-12 gap-4 flex flex-col">
     <div className="col-span-2 lg:ml-10 ">
       <div className="card">
         <div className="card-header">

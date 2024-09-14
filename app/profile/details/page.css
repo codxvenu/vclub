@@ -4,7 +4,7 @@
     }
   }
   .container-setting, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl {
-    width: 72%;
+    width: 100%;
     padding-right: 15px;
     padding-left: 15px;
     margin: 40px 198px 0;
@@ -156,6 +156,7 @@
     margin-left: 14rem;
     width: fit-content;
     border-radius: 20px;
+    overflow: scroll;
 }
 #highcharts-lmnwgns-14{
     width: 852px !important;
@@ -164,7 +165,13 @@
     .main-content{
       width: 100vw;
     }
-    .container-order{
+    .container-setting{
         margin: 0;
+    }
+    .div5{
+        margin-left: 0;
+    }
+    #highcharts-lmnwgns-14{
+        width: 370PX!important;
     }
   }

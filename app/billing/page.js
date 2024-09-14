@@ -76,7 +76,7 @@ const BillingPage = () => {
                   role="tab"
                   onClick={() => setTab("bitcoin")}
                 >
-                  <i className="fa fa-bitcoin"></i> BITCOIN
+                 <span className='flex gap-2'><img src='https://cdn-icons-png.flaticon.com/512/5968/5968260.png'  alt='btc' className='w-4'/><h2>BITCOIN</h2> </span> 
                 </a>
               </li>
               <li className="mr-1">
@@ -87,7 +87,7 @@ const BillingPage = () => {
                   role="tab"
                   onClick={() => setTab("usdt")}
                 >
-                  <i className="fa fa-bitcoin"></i> USDT
+               <span className='flex gap-2'><img src='https://cdn-icons-png.flaticon.com/512/15207/15207964.png' className='w-4'></img>  <h2>USDT</h2></span> 
                 </a>
               </li>
             
@@ -196,7 +196,7 @@ const BillingPage = () => {
                 <div className="card p-4 shadow-md rounded">
                   <div className="card-body">
                     <h4 className="text-lg font-semibold">
-                      Please send your payment of USDT to USDT  address:
+                    Please send your payment of USDT to Tether address:
                     </h4>
                     <b>
                       <span className=" text-xl">
@@ -215,14 +215,15 @@ const BillingPage = () => {
                     </div>
                     <div className="flex para">
                       <div className="flex-1 text-white">
-                        <h4 className="text-lg font-bold">1BTC = 61941$</h4>
-                        Payments from Bitcoin's take about 10-15 mins, please contact support if you don't receive your funds only after 15 mins.
+                        <h4 className="text-lg font-bold">1USDT = 1.00$Ensure the network is Tron (TRC20)</h4>
+                        Payments from USDT takes about 5-10 mins.
+
                         <br />
                         <br />
-                        To fill up your shop balance with BTC payment you need to:
+                        To fill up your shop balance with USDT payment you need to:
                         <br />
                         <br />
-                        1. Send coins to your address shown below.
+                        1- Send coins to your address shown above (you can send as many separate payments as you want - they all will be added to your balance)
                         <br />
                         2. After your transaction(s) send transaction id - your balance will be added to your account automatically.
                         <br />

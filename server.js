@@ -598,50 +598,69 @@ app.post("/api/addcart", (req, res) => {
     return res.status(401).send({ message: 'User not authorized' });
   }
 
-  // Updated query to include all columns in the 'cart' table
-  const query = `
-  INSERT INTO cart(
-bin, cvv, exp, country, bank, level, type, holderName,
-city, state, zip, base, price, addr, email, phone, dob, sortCode,
-ip, checker, additionalInfo,ccnum, user
-) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
-`;
+  // Query to check if the item already exists in the cart for the user
+  const checkQuery = `
+    SELECT * FROM cart WHERE bin = ? AND cvv = ? AND user = ?
+  `;
 
-  // Values to be inserted into the table
-  const values = [
-    item.bin,        // `bin`
-    item.cvv,        // `cvv`
-    item.yymm,       // `yymm`
-    item.country,    // `country`
-    item.bank,       // `bank`
-    item.level,      // `level`
-    item.type,       // `type`
-    item.holder,     // `holder`
-    item.city,       // `city`
-    item.state,      // `state`
-    item.zip,        // `zip`
-    item.base,       // `base`
-    item.price,      // `price`
-    item.addr,       // `addr`
-    item.email,      // `email`
-    item.phone,      // `phone`
-    item.dob,        // `dob`  
-    item.sortCode,   // `sortCode`
-    item.ip,         // `ip`
-    item.checker,    // `checker`
-    item.additionalInfo, // `additionalInfo`
-    item.ccnum,// `bins`
-    username
-  ];
+  const checkValues = [item.bin, item.cvv, username];
 
-  db.query(query, values, (err, results) => {
+  db.query(checkQuery, checkValues, (err, results) => {
     if (err) {
       console.error('Database error:', err);
       return res.status(500).json({ error: err.message });
     }
-    res.json({ message: 'Item added to cart successfully', results });
+
+    // If item already exists, send a message
+    if (results.length > 0) {
+      return res.status(400).json({ message: 'Item already in cart' });
+    }
+
+    // If item doesn't exist, proceed to insert it into the cart
+    const insertQuery = `
+      INSERT INTO cart(
+        bin, cvv, exp, country, bank, level, type, holderName,
+        city, state, zip, base, price, addr, email, phone, dob, sortCode,
+        ip, checker, additionalInfo, ccnum, user
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+    `;
+
+    const insertValues = [
+      item.bin,        // `bin`
+      item.cvv,        // `cvv`
+      item.yymm,       // `yymm`
+      item.country,    // `country`
+      item.bank,       // `bank`
+      item.level,      // `level`
+      item.type,       // `type`
+      item.holder,     // `holder`
+      item.city,       // `city`
+      item.state,      // `state`
+      item.zip,        // `zip`
+      item.base,       // `base`
+      item.price,      // `price`
+      item.addr,       // `addr`
+      item.email,      // `email`
+      item.phone,      // `phone`
+      item.dob,        // `dob`  
+      item.sortCode,   // `sortCode`
+      item.ip,         // `ip`
+      item.checker,    // `checker`
+      item.additionalInfo, // `additionalInfo`
+      item.ccnum,      // `ccnum`
+      username
+    ];
+
+    db.query(insertQuery, insertValues, (err, results) => {
+      if (err) {
+        console.error('Database error:', err);
+        return res.status(500).json({ error: err.message });
+      }
+      res.json({ message: 'Item added to cart successfully', results });
+    });
   });
 });
+
 app.post("/api/order/remove", (req, res) => {
   const { username, info } = req.body; // Destructure both 'username' and 'info' from req.body
   let item = info[0];

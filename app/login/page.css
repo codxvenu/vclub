@@ -130,7 +130,8 @@ p a{
     width: auto;
 }
 .login{
-  background: rgba(124, 252, 0, 0.8);
+  background:  rgba(160, 199, 121, 0.243);
+  border:2px solid rgba(124, 252, 0, 0.8);
 }
 .hover{
   display: none;

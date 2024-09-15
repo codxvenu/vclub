@@ -8,9 +8,9 @@ import { useRouter } from 'next/navigation'; // Correct import for useRouter in 
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { fas , faUser } from '@fortawesome/free-solid-svg-icons';
+import { fas, faUser } from '@fortawesome/free-solid-svg-icons';
 
-library.add(fas , faUser);
+library.add(fas, faUser);
 
 import "./page.css";
 
@@ -63,7 +63,7 @@ function LoginSignup() {
     setIsLoading(true); // Set loading state
 
     const url = `/api/signup`;
-    const data =  { username, password, email };
+    const data = { username, password, email };
 
     try {
       const response = await fetch(url, {
@@ -83,8 +83,8 @@ function LoginSignup() {
           router.push("/login"); // Redirect to home page after login
           localStorage.setItem("username", username);
           localStorage.setItem("role", result.role);
-          
-          
+
+
         } else {
           toast.error(result.message);
           fetchCaptcha(); // Refresh the CAPTCHA on error
@@ -104,77 +104,91 @@ function LoginSignup() {
       setIsLoading(false); // Reset loading state
     }
   };
-  
-  
+
+
 
   return (
     <div className="login-container">
-     
+
       <ToastContainer />
-      <span className="leading-loose block  mt-4 text-slate-300">Registration: <strong>Open
+      <span className="leading-loose block  mt-4 text-slate-300 text-center">Registration: <strong>Open
       </strong> , Registration Fee: <strong>$50
         </strong></span>
-        <span className="text-red-500">Please note inactive users without balance will be deletedafter several days</span>
+      <span className="text-red-500 text-center "><h2 className="text-sm font-normal">Please note inactive users without balance will be deletedafter several days</h2> </span>
       <div className="form-container ">
-     
+
         <form onSubmit={handleSubmit}>
-         
-         
+
+          <span className="flex gap-4">
+
             <input
               type="text"
               id="username"
               value={username}
               onChange={handleUsernameChange}
-              placeholder="Enter Username"
+              placeholder=" Username*"
               required
             />
-         
-         
-           
+
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={handleEmailChange}
+              placeholder=" Jabber*"
+              required
+            />
+          </span>
+          <div className="alert alert-danger">
+            <a href="https://xmpp.org/about/technology-overview/" target="_blank">Jabber (XMPP)</a> <strong>IS NOT AN EMAIL</strong>. You will not be able to reset your password and get access to your account without it. You can register a jabber on some site from <a href="https://list.jabber.at/" target="_blank">this list</a> or find a suggestion on a forum                    </div>
+          <span className="flex  gap-4">
+
             <input
               type="password"
               id="password"
               value={password}
               onChange={handlePasswordChange}
-               placeholder="Enter Password"
+              placeholder=" Password*"
               required
             />
-        
-          {isLogin && (
-           
-           
-              <input
-                type="email"
-                id="email"
-                value={email}
-                onChange={handleEmailChange}
-                 placeholder="Enter Email"
-                required
-              />
-   
-          )}
-          {isLogin && (
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={handlePasswordChange}
+              placeholder="Repeat Password*"
+              required
+            />
+          </span>
+
+
+
+
+          <span className="flex gap-2">
+
             <div className="form-group flex flex-row .captcha-container">
               <input
                 type="text"
                 id="captcha"
                 value={captcha}
                 onChange={handleCaptchaChange}
-                placeholder="Captcha"
+                placeholder="Captcha*"
                 required
               />
               <img className="captcha-image" src={captchaUrl} alt="CAPTCHA" />
-              
+
             </div>
-          )}
-          <div className="flex">
-          <button className="submit register" type="submit" disabled={isLoading}>
-           Registration
-          </button>
-          </div>
-         
+
+            <div className="flex">
+              <button className="submit login" type="submit" disabled={isLoading}>
+                Registration
+              </button>
+            </div>
+          </span>
+
+
         </form>
-       
+
       </div>
     </div>
   );

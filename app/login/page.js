@@ -124,7 +124,7 @@ function LoginSignup() {
               id="username"
               value={username}
               onChange={handleUsernameChange}
-              placeholder="Enter Username"
+              placeholder="Username*"
               required
             />
          
@@ -135,7 +135,7 @@ function LoginSignup() {
               id="password"
               value={password}
               onChange={handlePasswordChange}
-               placeholder="Enter Password"
+               placeholder="Password*"
               required
             />
         
@@ -147,7 +147,7 @@ function LoginSignup() {
                 id="email"
                 value={email}
                 onChange={handleEmailChange}
-                 placeholder="Enter Email"
+                 placeholder="Jabber*"
                 required
               />
    
@@ -160,7 +160,7 @@ function LoginSignup() {
                 id="captcha"
                 value={captcha}
                 onChange={handleCaptchaChange}
-                placeholder="Captcha"
+                placeholder="Captcha*"
                 required
               />
               <img className="captcha-image w-2/4" src={captchaUrl} alt="CAPTCHA" />

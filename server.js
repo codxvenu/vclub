@@ -21,8 +21,8 @@ app.use(session({
 
 app.use(bodyParser.json());
 const corsOptions = {
-  // origin: process.env.FRONTEND_URL, // Use the environment variable
-  origin: "http://localhost:3000",
+  origin: process.env.FRONTEND_URL, // Use the environment variable
+  // origin: "http://localhost:3000",
   credentials: true
 };
 
@@ -749,7 +749,7 @@ app.post('/api/bins', (req, res) => {
         console.error('Database error:', err);
         return res.status(500).json({ error: err.message });
       }
-      // console.log('Results:', results); // Log the results
+      console.log('Results:', results); // Log the results
       res.json(results);
     });
   }
@@ -1654,7 +1654,7 @@ app.get('/api/payments', (req, res) => {
   });
 });
 
-app.listen(port, () => {
-  console.log(`Server is running on port: ${port}`);
-});
-// module.exports = app;
+// app.listen(port, () => {
+//   console.log(`Server is running on port: ${port}`);
+// });
+module.exports = app;

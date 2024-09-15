@@ -918,9 +918,7 @@ useEffect(() => {
                         onChange={handleInputChange}
                       >
                          <option value="">Select Buyed </option>
-                        <option value="true">
-                          Yes
-                        </option>
+                        <option value="true">Yes </option>
                         <option value="false">No</option>
                       </select>
                     </div>

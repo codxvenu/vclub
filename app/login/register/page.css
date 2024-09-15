@@ -138,8 +138,8 @@ p a{
 .login{
   background: rgba(124, 252, 0, 0.8);
 }
-.register{
-
+.hover{
+  display: none;
 }
 @media only screen and (max-width: 768px){
 .img{

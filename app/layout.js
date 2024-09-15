@@ -1,7 +1,7 @@
 import './globals.css'; // Import global styles
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import Hover from './hover/page'
 export const metadata = {
   title: "NoCash Store",
   description: "Buy Ccs ",
@@ -30,6 +30,7 @@ export default function RootLayout({ children }) {
                 draggable
                 pauseOnHover
               />
+              <Hover/>
         </body>
      
     </html>

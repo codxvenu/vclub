@@ -749,7 +749,7 @@ app.post('/api/bins', (req, res) => {
         console.error('Database error:', err);
         return res.status(500).json({ error: err.message });
       }
-      console.log('Results:', results); // Log the results
+      // console.log('Results:', results); // Log the results
       res.json(results);
     });
   }

@@ -99,6 +99,8 @@ function bins() {
   
        setData(await response.json());
         if (Array.isArray(data)) {
+          console.log(data);
+          
         } else {
           console.error('Expected an array response',data);
         }

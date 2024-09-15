@@ -81,7 +81,7 @@ function bins() {
   
     const handleSubmit = async () => {
       try {
-        const response = await fetch('/api/bins', {
+        const response = await fetch('http://localhost:5000/api/bins', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -99,7 +99,7 @@ function bins() {
   
        setData(await response.json());
         if (Array.isArray(data)) {
-          console.log(data);
+         
           
         } else {
           console.error('Expected an array response',data);
@@ -109,7 +109,7 @@ function bins() {
         console.error('Error fetching data:', error);
       }
     };
-
+    console.log(data);
 useEffect(() => {
   handleSubmit();
 },[]);
@@ -919,8 +919,7 @@ useEffect(() => {
                         value={formData.buyed}
                         onChange={handleInputChange}
                       >
-                         <option value="">Select Buyed </option>
-                        <option value="true">Yes </option>
+                                                <option value="true">Yes </option>
                         <option value="false">No</option>
                       </select>
                     </div>
@@ -963,7 +962,7 @@ useEffect(() => {
               <tbody>
           {currentData.map((item) => (
             <tr key={item.id}>
-              <td className="border px-4 py-2">{maskBin(item.bin)}</td>
+              <td className="border px-4 py-2">{item.user === null ? maskBin(item.bin) : item.bin }</td>
               <td className="border px-4 py-2">{item.country}</td>
               <td className="border px-4 py-2">{item.type}</td>
               <td className="border px-4 py-2">{item.level}</td>
@@ -971,9 +970,11 @@ useEffect(() => {
               <td className="border px-4 py-2">{item.description}</td>
               <td className="border px-4 py-2">{item.price}</td>
               <td className="border px-4 py-2">
-                <a className="btn btn-sm btn-primary" title="Buy" onClick={()=>handleOrder(item.id)} id={`yt${item.id}`}>
+                {item.user === null && 
+                  <a className="btn btn-sm btn-primary" title="Buy" onClick={()=>handleOrder(item.id)} id={`yt${item.id}`}>
                   Buy
                 </a>
+}
               </td>
             </tr>
           ))}

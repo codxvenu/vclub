@@ -1,0 +1,43 @@
+.hover{
+    display: none;
+  }
+  body{
+    background: white !important;
+  }
+  .btnzz{
+    appearance: auto;
+    user-select: none;
+    align-items: flex-start;
+    text-align: center;
+    cursor: default;
+    box-sizing: border-box;
+    background-color: buttonface;
+    color: buttontext;
+    white-space: pre;
+    padding-block: 1px;
+    padding-inline: 6px;
+    border-width: 2px;
+    border-style: outset;
+    border-color: buttonborder;
+    border-image: initial;
+    margin: 10px 15px;
+  }
+  .img{
+    width:80vw;
+    border: none;
+    background-image: url("./logo.svg");
+    background-repeat: no-repeat;
+    margin: 0 auto;
+    height: 100vh;
+  }
+  @media (min-width: 1200px) {
+    .container, .container-lg, .container-md, .container-sm, .container-xl {
+        max-width: 1140px;
+    }
+  }
+  .container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-top: 12rem;
+  }

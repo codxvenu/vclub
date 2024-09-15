@@ -35,7 +35,7 @@ const Hover = () => {
   return (
   <div className='hover'>
         <div className="invite-button"></div>
-        <div className="support-button" onClick={()=>{router.push("/support");}}></div>
+        <div className="support-button" onClick={()=>{window.location.href = 'https://t.me/vclub_x';}}></div>
         <div className="alpha60">
       <div className="container flex flex-col items-center">
         <div>

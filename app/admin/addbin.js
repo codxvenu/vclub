@@ -1,195 +1,84 @@
-"use client"
-import React, { useState  , useEffect , useRef} from 'react';
-
+  "use client"
+import React, { useState, useEffect } from 'react';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import "../credit-cards/page.css"
 import "./page.css"
 
-import HorizontalNav from '../home/horizontal';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { fas } from '@fortawesome/free-solid-svg-icons'
-import { faTwitter, faFontAwesome , faTelegram} from '@fortawesome/free-brands-svg-icons'
-library.add(fas,faTwitter, faFontAwesome)
 
-function bins() {
-  const [data ,setData] = useState([]);
-  const totalItems = data.length;
-  const itemsPerPage = 5;
+const Addbin = () => {
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
-  // Calculate the start and end indices of the items to display
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentData = data.slice(startIndex, endIndex);
+  const [isloader, setIsloader] = useState(false);
 
-  // Handle page change
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
+  const [formData, setFormData] = useState({
+    bin: '',
+    country: '',
+    level: '',
+    types: '',
+    price: '',
+    brand: '',
+    description: ''
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value !== undefined ? value : '',
+    });
   };
 
-  // Generate page numbers
-  const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil(data.length / itemsPerPage); i++) {
-    pageNumbers.push(i);
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsloader(true);
 
-      // Function to mask BIN number
-      const maskBin = (bin) => {
-        // Convert bin to a string if it is a number
-        const binStr = String(bin);
-      
-        // Check if the string is empty or not
-        if (binStr.length === 0) return '';
-      
-        // Mask all characters except the first one
-        return `${binStr[0]}${'*'.repeat(binStr.length - 1)}`;
-      };
-      
-        // useEffect(() => {
-        //     settData(tdata);
-        //     if (Array.isArray(tdata)) {
-        //       setTableData(tdata); // Set the tableData state to the array response
-        //     } else {
-        //       console.error('Expected an array response');
-        //     }
-        //   }, [tdata]);
-          
-    // State to track selected rows
-    
-  
-    // Handler for "Select All" checkbox
-    const selectedData = (id) => {
-      return data.find(item => item.id === id); // Find item by id
-    };
-    const [formData, setFormData] = useState({
-      buyed : '',
-      level: '',
-      country: '',
-      types: '',
-      description : ''
-    });
-  
-    const handleInputChange = (e) => {
-      const { name, value } = e.target;
-      setFormData({
-        ...formData,
-        [name]: value !== undefined ? value : '',
-      });
-    };
-  
-    const handleSubmit = async () => {
-      try {
-        const response = await fetch('/api/bins', {
-          method: 'POST',
+    try {
+        // Perform the POST request to add data to the SQL database
+        const response = await fetch("/api/add-bin", {
+          method: "POST", // Use POST method to submit the data
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            buyed: formData.buyed === 'true' || formData.buyed === true, // Ensure buyed is boolean
-            level: formData.level,
-            country: formData.country,
-            description : formData.description,
-            types: formData.types,
-            username : localStorage.getItem("username")
-          }),
+          body: JSON.stringify(formData),
         });
   
-  
-       setData(await response.json());
-        if (Array.isArray(data)) {
-         
-          
+        if (response.ok) {
+          toast.success("Bin data added successfully");
+          setFormData({
+            bin: "",
+            country: "",
+            level: "",
+            types: "",
+            price: "",
+            brand: "",
+            description: ""
+          });
         } else {
-          console.error('Expected an array response',data);
+          const errorData = await response.json();
+          console.log(errorData.message);
+          toast.error(`Failed to add Bin data: ${errorData.message}`);
         }
-        
       } catch (error) {
-        console.error('Error fetching data:', error);
+        toast.error("An unexpected error occurred");
+      } finally {
+        setIsloader(false);
       }
     };
-    console.log(data);
-useEffect(() => {
-  handleSubmit();
-},[]);
 
-    const handleClear = () => {
-      setFormData({
-        buyed : '',
-        level: '',
-        country: '',
-        types: '',
-        description : ''
-      },
-      setData([])
-    );
-    
-     
-    };
-   // Handler for "Select All" checkbox
-
-   const handleOrder = async (id) => {
-    const info = [selectedData(id)]; // Wrap the single item in an array
-  
-    if (!info || info.length === 0) {
-      toast.error('Item not found');
-      return;
-    }
-  
-    const username = localStorage.getItem('username');
-    if (!username) {
-      toast.error('User not logged in');
-      return;
-    }
-  
-    const requestBody = JSON.stringify({
-      username: username,
-      info: info // Send info as an array
-    });
-  
-    try {
-      const response = await fetch('/api/purchase_bins', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: requestBody,
-        credentials: 'include'
-      });
-  
-      const result = await response.json();
-  
-      if (response.ok) {
-        toast.success(result.message);
-      } else {
-        toast.error(result.message);
-      }
-    } catch (error) {
-      toast.error('An unexpected error occurred');
-    }
-  };
-  
-  
   return (
-   
-      <div className="app">
-      <div className="main-content">
-        <HorizontalNav />
-        <div className="container-bin mt-20">
-          <h3>Buy NoVBV Bins</h3>
-         
-          <form className="form-vertical" action="/novbv" method="get">
-            <div className="card mb-5 border rounded-lg shadow-sm">
-              <div className="card-body p-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                  <div className="form-group">
-                    <label className="block text-sm font-medium mb-1" htmlFor="NovbvBins_country_name">
-                      Country
-                    </label>
-                    <div className="controls">
-                    <select className="form-control" name="country" id="NovbvBins_country_name" value={formData.country} onChange={handleInputChange}>
-<option value="" >Select Card Country</option>
+    <div className="admin-app">
+      <div className="main-content admin-main">
+          <div className= 'admin-form '>
+            <form onSubmit={handleSubmit}>
+              <div className='gap-6 flex flex-wrap'>
+                <div className="form-row">
+                  <label>BIN</label>
+                  <input type="text" name="bin" value={formData.bin} onChange={handleInputChange} placeholder="Enter BIN" />
+                </div>
+                <div className="form-row">
+                  <label>Country</label>
+                  <select placeholder="Enter Country" name="country" value={formData.country} onChange={handleInputChange}>
+                 <option value="" >Select Card Country</option>
 <option value="AFGHANISTAN">AFGHANISTAN</option>
 <option value="ALAND ISLANDS">ALAND ISLANDS</option>
 <option value="ALBANIA">ALBANIA</option>
@@ -442,36 +331,12 @@ useEffect(() => {
 <option value="YUGOSLAVIA">YUGOSLAVIA</option>
 <option value="ZAMBIA">ZAMBIA</option>
 <option value="ZIMBABWE">ZIMBABWE</option>
-</select>
-                    </div>
-                  </div>
-                  <div className="form-group">
-                    <label className="block text-sm font-medium mb-1" htmlFor="NovbvBins_card_type">
-                      Card Type
-                    </label>
-                    <div className="controls">
-                      <select
-                        className="form-control border rounded-md p-2 "
-                        name="types"
-                        value={formData.types}
-                        id="NovbvBins_card_type"
-                        onChange={handleInputChange}
-                      >
-                        <option value="" >
-                          Select Card Type
-                        </option>
-                        <option value="CHARGE CARD">CHARGE CARD</option>
-                        <option value="CREDIT">CREDIT</option>
-                        <option value="DEBIT">DEBIT</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div className="form-group">
-                    <label className="block text-sm font-medium mb-1" htmlFor="NovbvBins_card_level">
-                      Card Level
-                    </label>
-                    <div className="controls">
-                    <select className="form-control" name="level" id="NovbvBins_card_level" value={formData.level} onChange={handleInputChange}>
+</select>   
+                </div>
+                <div className="form-row">
+                  <label>Level</label>
+                  <select name="level" value={formData.level} onChange={handleInputChange}>
+                  
 <option value="">Select Card Level</option>
 <option value="AARP">AARP</option>
 <option value="ACCESS">ACCESS</option>
@@ -887,158 +752,46 @@ useEffect(() => {
 <option value="YUANDU CARD">YUANDU CARD</option>
 <option value="ZINKA">ZINKA</option>
 </select>
-                    </div>
-                  </div>
-                  <div className="form-group">
-                    <label className="block text-sm font-medium mb-1" htmlFor="NovbvBins_description">
-                      Description
-                    </label>
-                    <div className="controls">
-                      <input
-                        className="form-control border rounded-md p-2 "
-                        type="text"
-                        name="description"
-                        placeholder='Enter Description'
-                        value={formData.description}
-                        id="NovbvBins_description"
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                  </div>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
-                  <div className="form-group">
-                    <label className="block text-sm font-medium mb-1" htmlFor="NovbvBins_owned">
-                      Owned
-                    </label>
-                    <div className="controls">
-                      <select
-                        className="form-control border rounded-md p-2 "
-                        name="buyed"
-                        id="NovbvBins_owned"
-                        value={formData.buyed}
-                        onChange={handleInputChange}
-                      >
-                                                <option value="true">Yes </option>
-                        <option value="false">No</option>
-                      </select>
-                    </div>
-                  </div>
+                
+                <div className="form-row">
+                  <label>Type</label>
+                  <select name="types" value={formData.types} onChange={handleInputChange}>
+                  <option value="">All Types</option>
+                        <option value="CHARGE CARD">CHARGE CARD</option>
+                        <option value="CREDIT">CREDIT</option>
+                        <option value="DEBIT">DEBIT</option>
+
+                  </select>
+                </div>
+                <div className="form-row">
+                  <label>Brand</label>
+                  <select name="brand" value={formData.brand} onChange={handleInputChange}>
+                  <option value="">All Brands</option>
+                        <option value="CHARGE CARD">Visa</option>
+                        <option value="CREDIT">MasterCard</option>
+
+                  </select>
+                </div>
+                <div className="form-row">
+                  <label>Price</label>
+                  <input type="number" name="price" value={formData.price} onChange={handleInputChange} placeholder="Enter Price" />
+                </div>
+                <div className="form-row">
+                  <label>Description</label>
+                  <input type="text" name="description" value={formData.description} onChange={handleInputChange} placeholder="Enter Description" />
                 </div>
               </div>
-              <div className="card-footer text-right p-4">
-                <button className="btn btn-primary bg-blue-500 text-white py-2 px-4 rounded" type="button" name="yt0" onClick={handleSubmit}>
-                  Search
-                </button>
+              <div className="form-row">
+                <button type="submit" className="submit">Add Bin Data</button>
               </div>
-            </div>
-          </form>
-          <div id="novbvbins" className="grid-view mt-6 tablec">
-            <table className="items table-auto w-full border-collapse">
-              <thead>
-                <tr>
-                  <th className="border px-4 py-2">
-                    <a className="text-blue-500 hover:underline" href="/novbv/index?NovbvBins%5Bcountry_name%5D=&NovbvBins%5Bcard_type%5D=&NovbvBins%5Bcard_level%5D=&NovbvBins%5Bdescription%5D=&NovbvBins%5Bowned%5D=0&yt0=&NovbvBins_sort=bin">
-                      Bin
-                    </a>
-                  </th>
-                  <th className="border px-4 py-2">Country</th>
-                  <th className="border px-4 py-2">Card Type</th>
-                  <th className="border px-4 py-2">Card Level</th>
-                  <th className="border px-4 py-2">Card Brand</th>
-                  <th className="border px-4 py-2">
-                    <a className="text-blue-500 hover:underline" href="/novbv/index?NovbvBins%5Bcountry_name%5D=&NovbvBins%5Bcard_type%5D=&NovbvBins%5Bcard_level%5D=&NovbvBins%5Bdescription%5D=&NovbvBins%5Bowned%5D=0&yt0=&NovbvBins_sort=description">
-                      Description
-                    </a>
-                  </th>
-                  <th className="border px-4 py-2">
-                    <a className="text-blue-500 hover:underline" href="/novbv/index?NovbvBins%5Bcountry_name%5D=&NovbvBins%5Bcard_type%5D=&NovbvBins%5Bcard_level%5D=&NovbvBins%5Bdescription%5D=&NovbvBins%5Bowned%5D=0&yt0=&NovbvBins_sort=price">
-                      Price
-                    </a>
-                  </th>
-                  <th className="border px-4 py-2"></th>
-                </tr>
-              </thead>
-              <tbody>
-          {currentData.map((item) => (
-            <tr key={item.id}>
-              <td className="border px-4 py-2">{item.user === null ? maskBin(item.bin) : item.bin }</td>
-              <td className="border px-4 py-2">{item.country}</td>
-              <td className="border px-4 py-2">{item.type}</td>
-              <td className="border px-4 py-2">{item.level}</td>
-              <td className="border px-4 py-2">{item.brand}</td>
-              <td className="border px-4 py-2">{item.description}</td>
-              <td className="border px-4 py-2">{item.price}</td>
-              <td className="border px-4 py-2">
-                {item.user === null && 
-                  <a className="btn btn-sm btn-primary" title="Buy" onClick={()=>handleOrder(item.id)} id={`yt${item.id}`}>
-                  Buy
-                </a>
-}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-            </table>
-            <div className="pagination mt-4">
-            <nav>
-                  <ul className="pagination flex list-none">
-                    <li className="page-item disabled cursor-pointer" onClick={()=>handlePageChange(1)}>
-                      <a className="page-link">&laquo;</a>
-                    </li>
-                   
-                    <li className="page-item disabled cursor-pointer" onClick={()=>handlePageChange(currentPage   - 1)}>
-                      <a className="page-link">&lsaquo;</a>
-                    </li>
-                    {pageNumbers.map((number) => (
-                    <li className="page-item active cursor-pointer">
-                    
-          <a
-            key={number}
-            onClick={() => handlePageChange(number)}
-            className={`pagination-button page-link ${currentPage == number ? 'active' : ''}`}
-          >
-            {number}
-          </a>
-          </li>
-        ))}
-          
-                    
-          <li className="page-item disabled cursor-pointer" onClick={()=>handlePageChange(currentPage   + 1)}>
-                      <a className="page-link">&rsaquo;</a>
-                    </li>
-                     <li className="page-item disabled cursor-pointer" onClick={()=>handlePageChange(totalPages)}>
-                      <a className="page-link">&raquo;</a>
-                    </li>
-                   
-                   
-                  </ul>
-                </nav>
-          <div className="summary text-sm mt-4">
-                  Displaying {startIndex}-{endIndex} of {totalItems} results.
-                </div>
-      </div>
-         
-          </div>
-          <div className="mt-4 mb-12">
-            <p>
-              Non vbv bins is a broad meaning for bins that do not have the 3DS security installed, those bins subdivide on several categories:
-            </p>
-            <ol className="list-decimal pl-5">
-              <li>100% nonvbv bin - a bin that will work in every country, shop, anywhere WITHOUT any 3DS verification for any sum. It does not mean though that cc with that bin will work in particular shop, cause there may be some limitations, like a holder ban, bank ban, IP ban and etc. Usually it is US and MIX bins.</li>
-              <li>50/50 nonvbv bin - a bin that will work a few times like 100% nonvbv bin. It depends on holder`s bank settings, sometimes on amounts, also on IP. Usually US and MIX bins.</li>
-              <li>Linkcc nonvbv bin - a bin that will work as a nonvbv WHEN YOU LINK IT to some service, for example pizza delivery, car rental, taxi or some other online service. The reason why the bin will be nonvbv lies on the amount of money taken from cc, if it is 0, so when the bank sees that the cc is not charged, it links that cc without any 3DS. Later on this cc can be used WITHOUT any 3DS in many places, because the system THINKS that that cc has been already verified. Usually US and MIX bins.</li>
-              <li>Realcc nonvbv bin - a bin that will work as a nonvbv ONLY in particular billing platform or in a particular store/place. The platforms can be various like adyen, ogone, stripe and etc.</li>
-            </ol>
-            <p>
-              This is a reliable information provided by our best suppliers, but be sure to test these bins before using them.
-            </p>
+            </form>
+            {isloader && <h1>Loading.....</h1>}
+            <ToastContainer />
           </div>
         </div>
       </div>
-    </div>
-   
-  
-);
+  );
 };
-export default bins;
+
+export default Addbin;

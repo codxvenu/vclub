@@ -226,7 +226,6 @@ app.post('/api/login', (req, res) => {
   });
 });
 
-
 // Data route for fetching graph data
 app.get('/api/data', (req, res) => {
   const sql = 'SELECT cvv, ssn, checker, floods FROM transaction';
@@ -258,6 +257,26 @@ app.get('/api/balance', (req, res) => {
     if (err) {
       console.error('Database query error:', err);
       return res.status(500).send({ message: 'Failed to fetch balance' });
+    }
+
+    if (results.length === 0) {
+      return res.status(404).send({ message: 'User not found' });
+    }
+
+    res.send({ balance: results[0].balance });
+  });
+});
+app.get('/api/checks', (req, res) => {
+  const { username } = req.query;
+  if (!username) {
+    return res.status(401).send({ message: 'User not authorized' });
+  }
+
+
+  db.query('SELECT access FROM users WHERE username = ?', [username], (err, results) => {
+    if (err) {
+      console.error('Database query error:', err);
+      return res.status(500).send({ message: 'Failed to fetch access' });
     }
 
     if (results.length === 0) {
@@ -1493,18 +1512,22 @@ app.post("/api/add-card", (req, res) => {
     bases,
     price,
     address,
-    binfo, email, phone, dob, name
+    binfo, email, phone, dob, name, sort_code,
+    ip,
+    checker
   } = req.body;
+
+  
 
   const sql = `
     INSERT INTO credit_card (
-      ccnum, cvv, exp, bin, country, state, city, zip,
-      bankname, level, brand, type, base, price,address,binInfo, email, phone, DOB,firstName, seller ,info,validPercent	,refundable,user
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?, ?,?, ?,?, ?,'VCLUB','sample',95,1,,NULL)
+      ccnum, cvv, yymm, bin, country, state, city, zip,
+      bank, level, type, base, price,addr,additionalInfo, email, phone, dob,holder, mmn ,sortCode	,ip,checker,user
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?, ?,?, ?,?,'VCLUB',?,?,?,NULL)
   `;
   db.query(sql, [
     ccnum, cvv, exp, bin, country, state, city, zip,
-    bankName, level, brand, types, bases, price, address, binfo, email, phone, dob, name
+    bankName, level, types, bases, price, address, binfo, email, phone, dob, name,sort_code,ip,checker
   ], (err, result) => {
     if (err) {
       console.error("Error inserting card data into the database:", err);
@@ -1523,16 +1546,18 @@ app.post("/api/add-bin", (req, res) => {
     country,
     types,
     level,
-    price
+    price,
+    brand,
+    description
   } = req.body;
 
   const sql = `
     INSERT INTO bins (
-      bin, country, level, type,brand, price,user
-    ) VALUES (?, ?, ?, ?, 'CC',?,NULL)
+      bin, country, level, type,brand,info, price,user
+    ) VALUES (?, ?, ?, ?, ?,?,?,NULL)
   `;
   db.query(sql, [
-    bin, country, level, types, price
+    bin, country, level, types,brand,description, price
   ], (err, result) => {
     if (err) {
       console.error("Error inserting BIN data into the database:", err);

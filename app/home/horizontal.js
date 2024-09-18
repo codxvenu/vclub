@@ -7,12 +7,14 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import Dialog from './dialog';
-import Link from "next/link";
+import { useLocation } from 'react-router-dom';
 
 library.add(fas);
 
 function HorizontalNav() {
+  const location = useLocation();
   const [balance, setBalance] = useState(0);
+  const [access, setAccess] = useState(0);
   const [showCCSDropdown, setShowCCSDropdown] = useState(false);
   const [showSocksDropdown, setShowSocksDropdown] = useState(false);
   const [showBillingDropdown, setShowBillingDropdown] = useState(false);
@@ -50,9 +52,47 @@ function HorizontalNav() {
         }
       }
     };
+    
 
     fetchBalance();
+    
   }, []);
+
+  useEffect(() => {
+    // Function to check user's access
+    const checks = async () => {
+      const username = localStorage.getItem("username");
+      if (!username) {
+        console.log("username is undefined");
+        window.location.href = '/login';
+        return;
+      }
+
+      try {
+        const response = await axios.get(`/api/checks`, {
+          params: { username },
+          withCredentials: true,
+        });
+
+        // If access is not 'yes', redirect to billing
+        if (response.data.balance !== "yes") {
+          window.location.href = '/billing';
+        }
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          window.location.href = '/login';
+        } else {
+          console.error('Error fetching balance:', error);
+        }
+      }
+    };
+
+    // Check if the current page is NOT the billing page
+    if (location.pathname !== '/billing') {
+      checks();
+    }
+  }, [location.pathname]);  // Runs only when the URL path changes (not on every render)
+
 
   return (
     <div className="navbar fixed top-0 w-full bg-dark-900 text-white">

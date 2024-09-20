@@ -154,7 +154,8 @@ app.get('/api/captcha', (req, res) => {
   res.type('svg');
   res.status(200).send(captcha.data);
 });
-// Signup route
+
+
 app.post('/api/signup', (req, res) => {
   const { username, password, email } = req.body;
 
@@ -163,34 +164,24 @@ app.post('/api/signup', (req, res) => {
   db.query(checkSql, [username, email], (err, results) => {
     if (err) {
       console.error('Database error:', err);
-      return res.status(500).send(err);
+      return res.status(500).send({ message: 'Database error' });
     }
 
     if (results.length > 0) {
       return res.status(409).send({ message: 'Username or email already in use' });
     }
 
-    // If not exists, proceed with signup
-    const mdsCode = Math.random().toString(36).substr(2, 9).toUpperCase();
-    const insertSql = 'INSERT INTO users (username, password, email, mdsCode) VALUES (?, ?, ?, ?)';
-    db.query(insertSql, [username, password, email, mdsCode], (err, results) => {
-      if (err) {
-        console.error('Database error:', err);
-        return res.status(500).send(err);
-      }
-
-      sendMdsCodeEmail(email, mdsCode)
-        .then(() => {
-          res.status(200).send({ message: 'Signup successful.' });
-          userid = username;
-        })
-        .catch((error) => {
-          console.error('Error sending email:', error);
-          res.status(500).send({ message: 'Signup successful but failed to send email. Please contact support.' });
-        });
+      const insertSql = 'INSERT INTO users (username, password, email) VALUES (?, ?, ?)';
+      db.query(insertSql, [username, password, email], (err, results) => {
+        if (err) {
+          console.error('Database error:', err);
+          return res.status(500).send({ message: 'Database error' });
+        }
+        res.status(200).send({ message: 'Signup successful', role: 'user' });
+      });
     });
   });
-});
+
 
 // Login route
 app.post('/api/login', (req, res) => {
@@ -268,12 +259,13 @@ app.get('/api/balance', (req, res) => {
 });
 app.get('/api/checks', (req, res) => {
   const { username } = req.query;
+
   if (!username) {
     return res.status(401).send({ message: 'User not authorized' });
   }
 
-
-  db.query('SELECT access FROM users WHERE username = ?', [username], (err, results) => {
+  const query = 'SELECT access FROM users WHERE username = ?';
+  db.query(query, [username], (err, results) => {
     if (err) {
       console.error('Database query error:', err);
       return res.status(500).send({ message: 'Failed to fetch access' });
@@ -283,9 +275,12 @@ app.get('/api/checks', (req, res) => {
       return res.status(404).send({ message: 'User not found' });
     }
 
-    res.send({ balance: results[0].balance });
+    // Assuming 'access' is a field in the users table
+    const access = results[0].access; 
+    res.send({ access });
   });
 });
+
 
 app.post('/api/submit-transaction', (req, res) => {
   const { transactionId, username } = req.body; // Access the username from session

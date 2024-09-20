@@ -417,7 +417,7 @@ const CreditCardForm = () => {
       />
       <label
         htmlFor="Search_fullz"
-        className="inline-block font-bold"
+        className="inline-block font-bold text-red-500"
       >
         Fullz
       </label>

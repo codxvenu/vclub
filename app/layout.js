@@ -1,25 +1,24 @@
-"use client";
+
 import './globals.css'; // Import global styles
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Hover from './hover/page'
-import { BrowserRouter as Router } from 'react-router-dom';
-// export const metadata = {
-//   title: "NoCash Store",
-//   description: "Buy Ccs ",
-// };
+export const metadata = {
+  title: "NoCash Store",
+  description: "Buy Ccs ",
+};
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        {/* <title>{metadata.title}</title> */}
-        {/* <meta name="description" content={metadata.description} />
-        <meta name="viewport" content="width=device-width, initial-scale=1" /> */}
+        <title>{metadata.title}</title>
+        <meta name="description" content={metadata.description} />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       
         <body className="roboto"> {/* Apply the local Roboto font */}
-        <Router>
+       
               {children}
               <ToastContainer
                 position="top-right"
@@ -33,7 +32,7 @@ export default function RootLayout({ children }) {
                 pauseOnHover
               />
               <Hover/>
-              </Router>
+             
         </body>
      
     </html>

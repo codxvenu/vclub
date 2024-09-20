@@ -61,10 +61,10 @@ function LoginSignup() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true); // Set loading state
-
+  
     const url = `/api/signup`;
     const data = { username, password, email };
-
+  
     try {
       const response = await fetch(url, {
         method: "POST",
@@ -74,43 +74,33 @@ function LoginSignup() {
         credentials: "include", // Include cookies in the request
         body: JSON.stringify(data),
       });
-
+  
+      // Check if the response status is not in the range 200–299
+      if (!response.ok) {
+        const result = await response.json(); // Get the error message from backend
+        throw new Error(result.message || "An unknown error occurred");
+      }
+  
       const result = await response.json();
-
-      if (isLogin) {
-        if (result.message === "SignUp successful") {
-          toast.success(result.message);
-          router.push("/login"); // Redirect to home page after login
-          localStorage.setItem("username", username);
-          localStorage.setItem("role", result.role);
-
-
-        } else {
-          toast.error(result.message);
-          fetchCaptcha(); // Refresh the CAPTCHA on error
-        }
-      } else {
-        if (result.message && result.message.includes("Signup successful")) {
-          toast.success(result.message);
-          setMdsCode(result.mdsCode); // Display MDS code
-        } else {
-          toast.error(result.message);
-        }
+      if (response.ok) {
+        toast.success(result.message);
+        localStorage.setItem("username", username);
+        localStorage.setItem("role", result.role);
+        window.location.href = '/login'; // Redirect to login page after signup
       }
     } catch (error) {
       console.error("Error:", error);
-      toast.error("An error occurred");
+      toast.error(error.message || "An error occurred");
     } finally {
       setIsLoading(false); // Reset loading state
     }
   };
+  
 
 
 
   return (
     <div className="login-container">
-
-      <ToastContainer />
       <span className="leading-loose block  mt-4 text-slate-300 text-center">Registration: <strong>Open
       </strong> , Registration Fee: <strong>$50
         </strong></span>

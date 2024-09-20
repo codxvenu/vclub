@@ -7,12 +7,10 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import Dialog from './dialog';
-import { useLocation } from 'react-router-dom';
 
 library.add(fas);
 
 function HorizontalNav() {
-  const location = useLocation();
   const [balance, setBalance] = useState(0);
   const [access, setAccess] = useState(0);
   const [showCCSDropdown, setShowCCSDropdown] = useState(false);
@@ -67,15 +65,16 @@ function HorizontalNav() {
         window.location.href = '/login';
         return;
       }
-
+  
       try {
         const response = await axios.get(`/api/checks`, {
           params: { username },
           withCredentials: true,
         });
-
+        console.log(response.data.access);
+        
         // If access is not 'yes', redirect to billing
-        if (response.data.balance !== "yes") {
+        if (response.data.access !== "yes") {
           window.location.href = '/billing';
         }
       } catch (error) {
@@ -86,13 +85,13 @@ function HorizontalNav() {
         }
       }
     };
-
+  
     // Check if the current page is NOT the billing page
-    if (location.pathname !== '/billing') {
+    if (window.location.pathname !== '/billing') {
       checks();
     }
-  }, [location.pathname]);  // Runs only when the URL path changes (not on every render)
-
+  }, [window.location.pathname]);  // Runs when the URL path changes
+  
 
   return (
     <div className="navbar fixed top-0 w-full bg-dark-900 text-white">

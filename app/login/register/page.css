@@ -98,9 +98,6 @@ input:focus::placeholder  {
 .form-group{
   display: flex;
 }
-button:hover {
-  background-color: #e87c34;
-}
 
 a {
   color: white;

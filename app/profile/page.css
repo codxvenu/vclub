@@ -155,7 +155,10 @@ div  input{
   .main-content{
     width: 100vw;
   }
-  .container-order{
-      margin: 0;
+  .container-profile{
+    margin: 0px 53px 0;
+  }
+  .cc{
+    margin-bottom: 35px;
   }
 }

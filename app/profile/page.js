@@ -69,8 +69,8 @@ const Profile = () => {
         <HorizontalNav />
         <div class="container-profile mx-auto mt-20">
 
-<div class="flex">
-  <div class="w-1/6">
+<div class="lg:flex ">
+  <div class="lg:w-1/6 cc">
     <div class="card shadow-md rounded-md">
       <div class="p-4">
         <h5 class="text-lg font-semibold">Profile</h5>
@@ -91,7 +91,7 @@ const Profile = () => {
       </div>
     </div>
   </div>
-  <div class="w-5/6 ml-20">
+  <div class="lg:w-5/6 lg:ml-20">
     <div>
       <h4 class="text-xl font-semibold">Edit your profile:</h4>    </div>
 

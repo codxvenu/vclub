@@ -76,11 +76,9 @@ function LoginSignup() {
       });
 
       const result = await response.json();
-
-      if (isLogin) {
         if (result.message === "Login successful") {
           toast.success(result.message);
-          router.push("/billing"); // Redirect to home page after login
+          window.location.href = '/billing';// Redirect to home page after login
           localStorage.setItem("username", username);
           localStorage.setItem("role", result.role);
           
@@ -89,14 +87,7 @@ function LoginSignup() {
           toast.error(result.message);
           fetchCaptcha(); // Refresh the CAPTCHA on error
         }
-      } else {
-        if (result.message && result.message.includes("Signup successful")) {
-          toast.success(result.message);
-          setMdsCode(result.mdsCode); // Display MDS code
-        } else {
-          toast.error(result.message);
-        }
-      }
+    
     } catch (error) {
       console.error("Error:", error);
       toast.error("An error occurred");
@@ -109,8 +100,6 @@ function LoginSignup() {
 
   return (
     <div className="login-container">
-     
-      <ToastContainer />
       <span className="leading-loose block  mt-4 text-slate-300">Registration: <strong>Open
       </strong> , Registration Fee: <strong>$50
         </strong></span>

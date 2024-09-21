@@ -31,8 +31,11 @@
     border: none;
     background-image: url("./logo.svg");
     background-repeat: no-repeat;
-    margin: 100% auto;
+    margin: 0% auto;
     height: 100vh;
+  }
+  .container{
+    width: 100vw;
   }
   input:not([type="image" i]) {
     box-sizing: border-box;
@@ -86,12 +89,20 @@ input {
 }
   @media (min-width: 1200px) {
     .container, .container-lg, .container-md, .container-sm, .container-xl {
-        max-width: 1140px;
     }
   }
   .container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl {
-    width: 100%;
     padding-right: 15px;
     padding-left: 15px;
 
+  }
+  @media only screen and (max-width: 768px){
+    .img{
+      width:40vw;
+      border: none;
+      background-image: url("./logo.svg");
+      background-repeat: no-repeat;
+      margin: 100% auto;
+      height: 100vh;
+    }
   }

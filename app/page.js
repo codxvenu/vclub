@@ -18,7 +18,7 @@ const Page = () => {
     )}
     
       {page && (
-      <div className='container flex justify-center items-center'>
+      <div className='container flex justify-center items-center w-[100vw]'>
   <div></div>
         <a href="/login">
           <div className='img'></div>

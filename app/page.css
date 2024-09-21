@@ -2,7 +2,8 @@
     display: none;
   }
   body{
-    background: white !important;
+    background: black !important;
+    color: white;
   }
   .btnzz{
     appearance: auto;

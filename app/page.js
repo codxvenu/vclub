@@ -6,7 +6,7 @@ const Page = () => {
   const [page, setPage] = useState(false);
 
   return (
-    <div className={page == true ? 'h-[100vh] bg-black ': "h-[100vh] bg-white "}>
+    <div className={page == true ? 'h-[100vh] bg-black p-2': "h-[100vh] bg-white p-2 "}>
     {!page && (
 
       <input 

@@ -3,10 +3,10 @@
   }
   body{
     color: white;
+    background: none;
   }
   body {
     display: block;
-    padding: 8px;
 }
   /* .btnzz{
     appearance: auto;

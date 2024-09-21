@@ -97,8 +97,9 @@ function HorizontalNav() {
     <div className="navbar fixed top-0 w-full bg-dark-900 text-white">
       <div className={`${isopen ? 'flex' : 'block'} container mx-auto justify-between items-center`}>
         <button className="navbar-toggler lg:hidden text-white" type="button" onClick={handleopen}>
-          <span className="navbar-toggler-icon font-extrabold">☰</span>
+          <span className="navbar-toggler-icon font-extrabold"></span>
         </button>
+        
         <div className={`${isopen ? 'hidden' : 'flex'} lg:flex w-full justify-between`} id="navbarResponsive_top">
           <ul className="navbar-nav flex">
             <li className="nav-item" onClick={handleDialog}>
@@ -159,9 +160,11 @@ function HorizontalNav() {
             <span className="balance text-lg font-semibold">Balance: ${balance}</span>
           </div> */}
         </div>
+       
       </div>
+      <hr/>
     </div>
   );
 }
-
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive_top" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"></button>
 export default HorizontalNav;

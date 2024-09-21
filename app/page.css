@@ -80,12 +80,12 @@ input {
     background-color: field;
     margin: 0em;
     padding: 1px 0px;
-    border-width: 2px;
-    border-style: inset;
-    border-color: light-dark(rgb(118, 118, 118), rgb(133, 133, 133));
     border-image: initial;
     padding-block: 1px;
     padding-inline: 2px;
+    font-size: 12px;
+    border: 2px solid grey;
+   
 }
   @media (min-width: 1200px) {
     .container, .container-lg, .container-md, .container-sm, .container-xl {
@@ -101,8 +101,16 @@ input {
       width:40vw;
       border: none;
       background-image: url("./logo.svg");
-      background-repeat: no-repeat;
-      margin: 100% auto;
-      height: 50vh;
+      background-repeat: no-repeat; 
+      height: 30vh;
+      margin: 0;
+      position: absolute;
+      top: 50%;
+      left:50%;
+      -ms-transform: translateY(-50%);
+      transform: translateY(-50%) translateX(-50%);
+    }
+    input{
+      font-size: 9px;
     }
   }

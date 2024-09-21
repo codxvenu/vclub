@@ -97,7 +97,7 @@ function HorizontalNav() {
     <div className="navbar fixed top-0 w-full bg-dark-900 text-white">
       <div className={`${isopen ? 'flex' : 'block'} container mx-auto justify-between items-center`}>
         <button className="navbar-toggler lg:hidden text-white" type="button" onClick={handleopen}>
-          <span className="navbar-toggler-icon">☰</span>
+          <span className="navbar-toggler-icon font-extrabold">☰</span>
         </button>
         <div className={`${isopen ? 'hidden' : 'flex'} lg:flex w-full justify-between`} id="navbarResponsive_top">
           <ul className="navbar-nav flex">
@@ -121,7 +121,11 @@ function HorizontalNav() {
               </ul>
             </li>
             <li className="nav-item dropdown relative">
-              <a className="nav-link drop hover:text-gray-400 flex gap-2" href="#" onClick={handleDialog}>Socks 5 <FontAwesomeIcon icon="fa-solid fa-caret-down" /></a>
+              <a className="nav-link drop hover:text-gray-400 flex gap-2" href="#"onClick={() => setShowSocksDropdown(!showSocksDropdown)}>Socks 5 <FontAwesomeIcon icon="fa-solid fa-caret-down" /></a>
+              <ul className={`${showSocksDropdown ? 'block' : 'hidden'} dropdown-menu absolute left-0 mt-2 w-40 bg-white text-black`}>
+                <li><a className="dropdown-item px-4 py-2 hover:bg-gray-200" onClick={handleDialog}>Buy Socks 5</a></li>
+                <li><a className="dropdown-item px-4 py-2 hover:bg-gray-200" onClick={handleDialog}>Order Socks5</a></li>
+              </ul>
             </li>
             <li className="nav-item">
               <a className="nav-link" href='/refund'>Refund policy</a>

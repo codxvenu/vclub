@@ -103,6 +103,6 @@ input {
       background-image: url("./logo.svg");
       background-repeat: no-repeat;
       margin: 100% auto;
-      height: 100vh;
+      height: 50vh;
     }
   }

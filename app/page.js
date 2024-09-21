@@ -6,7 +6,7 @@ const Page = () => {
   const [page, setPage] = useState(false);
 
   return (
-    <>
+    <div className={page == true ? 'h-[100vh] bg-black ': "h-[100vh] bg-white "}>
     {!page && (
 
       <input 
@@ -16,17 +16,16 @@ const Page = () => {
         onClick={() => setPage(true)} 
       />
     )}
-      
-      {/* Correct conditional rendering */}
+    
       {page && (
-      <div className='container'>
-
+      <div className='container flex justify-center items-center'>
+  <div></div>
         <a href="/login">
           <div className='img'></div>
         </a>
       </div>
       )}
-    </>
+    </div>
   );
 }
 

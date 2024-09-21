@@ -1657,22 +1657,19 @@ app.post('/api/add-seller', (req, res) => {
 app.get('/api/payments', (req, res) => {
   const user = req.query.username;
   const sql = 'SELECT * FROM payment WHERE username = ?';
-  console.log(user);
+  console.log(`Fetching payments for user: ${user}`);
 
   db.query(sql, [user], (err, results) => {
     if (err) {
       console.error('Database error:', err);
-      return res.status(500).send(err);
+      return res.status(500).json({ error: 'Internal Server Error' });
     }
 
-    // Send the entire results array instead of just the first result
-    if (results.length > 0) {
-      res.status(200).send(results);  // Send back the array of results
-    } else {
-      res.status(404).send({ message: 'No transactions found for this user' });
-    }
+    // Always return an array, even if empty
+    res.status(200).json(results);
   });
 });
+
 
 // app.listen(port, () => {
 //   console.log(`Server is running on port: ${port}`);

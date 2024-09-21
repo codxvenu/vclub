@@ -36,11 +36,31 @@ const BillingPage = () => {
   
 
   useEffect(() => {
-    const username = localStorage.getItem('username');
-    fetch(`/api/payments?username=${username}`)
-      .then((response) => response.json())
-      .then((data) => setData(data))
-      .catch((error) => console.error('Error fetching transaction data:', error));
+    const fetchTransactions = async () => {
+      const username = localStorage.getItem('username');
+      try {
+        const response = await fetch(`/api/payments?username=${username}`);
+        if (!response.ok) {
+          // Even with 404, ensure data is set to empty array
+          if (response.status === 404) {
+            setData([]);
+          } else {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+        } else {
+          const result = await response.json();
+          // Ensure result is an array
+          setData(Array.isArray(result) ? result : []);
+        }
+      } catch (error) {
+        console.error('Error fetching transaction data:', error);
+        setError(error.message);
+      } finally {
+        setIsFetching(false);
+      }
+    };
+
+    fetchTransactions();
   }, []);
   const handleSubmit = async () => {
     localStorage.setItem('username', "user1");

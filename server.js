@@ -784,6 +784,20 @@ app.post('/api/create/ticket', (req, res) => {
       // console.log('Results:', results); // Log the results
       res.json(results);
     });
+    const mailOptions = {
+      from: 'viparraich@gmail.com',
+      to: 'viparraich@gmail.com',
+      subject: `Ticket Details : ${subject}`,
+      text: `Username : ${username}`
+    };
+  
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error('Error sending email:', error);
+        return res.status(500).send({ message: 'Failed to send email' });
+      }
+      res.status(200).send({ message: 'Email sent successfully' });
+    });
 });
 
 

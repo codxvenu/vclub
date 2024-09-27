@@ -774,31 +774,35 @@ app.post('/api/create/ticket', (req, res) => {
   if (!username) {
     return res.status(401).send({ message: 'User not authorized' });
   }
-    let query = 'insert into ticket(subject,department,message,user,status,Answered) values(?,?,?,?,"opened","pending") '
-    // console.log('Constructed Query:', query); // Log the constructed query
-    db.query(query,[subject,department,message,username], (err, results) => {
-      if (err) {
-        console.error('Database error:', err);
-        return res.status(500).json({ error: err.message });
-      }
-      // console.log('Results:', results); // Log the results
-      res.json(results);
-    });
+
+  const query = 'INSERT INTO ticket (subject, department, message, user, status, answered) VALUES (?, ?, ?, ?, "opened", "pending")';
+  
+  db.query(query, [subject, department, message, username], (err, results) => {
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).json({ error: err.message });
+    }
+
     const mailOptions = {
       from: 'viparraich@gmail.com',
       to: 'viparraich@gmail.com',
-      subject: `Ticket Details : ${subject}`,
-      text: `Username : ${username}`
+      subject: `Ticket Details: ${subject}`,
+      text: `Username: ${username}\nDepartment: ${department}\nMessage: ${message}`
     };
-  
+
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
         console.error('Error sending email:', error);
-        return res.status(500).send({ message: 'Failed to send email' });
+        return res.status(500).send({ message: 'Ticket created but email failed to send' });
       }
-      res.status(200).send({ message: 'Email sent successfully' });
+
+      return res.status(200).json({
+        message: 'Ticket created and email sent successfully' // assuming `results` contains the ID of the inserted ticket
+      });
     });
+  });
 });
+
 
 
 app.post('/api/Proxies', (req, res) => {

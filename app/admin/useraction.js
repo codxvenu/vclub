@@ -9,7 +9,7 @@ function useraction() {
     const [view,setView]= useState(false);
     const fetchUsers = async ()=>{
         try {
-            const request =await axios.request("http://localhost:5000/api/admin/users");
+            const request =await axios.request("/api/admin/users");
             setData(request.data); 
         } catch (error) {
             toast.error(error)

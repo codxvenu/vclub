@@ -12,7 +12,7 @@ const AdminPage = () => {
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem('role', 'admin');
+    // localStorage.setItem('role', 'admin');
     setCurrentView(localStorage.getItem("tab"))
     // Check if the user is an admin
     const role = localStorage.getItem("role");

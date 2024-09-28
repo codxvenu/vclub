@@ -24,7 +24,7 @@ function view(data) {
         }
         
         try {
-            const response = await fetch("http://localhost:5000/api/admin/users/update", {
+            const response = await fetch("/api/admin/users/update", {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(form),

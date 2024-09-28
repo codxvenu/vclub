@@ -4,7 +4,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Hover from './hover/page'
 export const metadata = {
-  title: "NoCash Store",
+  title: "Vclub",
   description: "Buy Ccs ",
 };
 

@@ -5,12 +5,14 @@ import HorizontalNav from '../home/horizontal';
 import './page.css';
 import Addbin from "./addbin";
 import Addcc from './addcc';
+import Useraction from './useraction';
 
 const AdminPage = () => {
   const [currentView, setCurrentView] = useState('bin'); // Use 'currentView' to manage state
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
+    localStorage.setItem('role', 'admin');
     // Check if the user is an admin
     const role = localStorage.getItem("role");
     setIsAdmin(role === 'admin');
@@ -33,10 +35,12 @@ const AdminPage = () => {
             <div className="btndiv flex justify-between">
               <button type="button" className='' onClick={() => handleToggle('bin')}>Add Bin Data</button>
               <button type="button" className='' onClick={() => handleToggle('card')}>Add Card Data</button>
+              <button type="button" className='' onClick={() => handleToggle('user')}>User Action</button>
             </div>
             <div>
               {currentView === 'bin' && <Addbin />}
               {currentView === 'card' && <Addcc />}
+              {currentView === 'user' && <Useraction />}
             </div>
           </div>
         </div>

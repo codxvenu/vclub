@@ -18,6 +18,7 @@ body{
     border-radius: 25px 0 0 0;
     min-height: 90vh;
     margin: 20px 1rem 0;
+    width: 100vw;
   }
     h1{
       font-size: 2rem;
@@ -143,3 +144,33 @@ body{
     width: 44%;
 }
     }
+    
+.table-bordered {
+  border: 1px solid #282828;
+}
+.table {
+  width: 100%;
+  margin-bottom: 1rem;
+  background: #000;
+}
+table {
+  border-collapse: collapse;
+}
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(255, 255, 255, .05);
+}
+.table-bordered tbody tr:nth-of-type(even) {
+  background-color: black;
+}
+.table-bordered td, .table-bordered th {
+  border: 1px solid #282828;
+}
+.table td, .table th {
+  padding: .75rem;
+  vertical-align: top;
+  border-top: 1px solid #282828;
+}
+th {
+  text-align: inherit;
+  text-align: -webkit-match-parent;
+}

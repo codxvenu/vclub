@@ -44,6 +44,7 @@ body{
 ul{
   gap: 0 !important;
 }
+
 .table-bordered {
   border: 1px solid #282828;
 }

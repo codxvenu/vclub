@@ -174,3 +174,38 @@ th {
   text-align: inherit;
   text-align: -webkit-match-parent;
 }
+
+.btns {
+  display: inline-block;
+  font-weight: 400;
+  color: white;
+  text-align: center;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-color: transparent;
+  border: 1px solid transparent;
+  padding: .375rem 1rem;
+  font-size: .875rem;
+  line-height: 1.5;
+  transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+.btn-block {
+  display: block;
+  width: 100%;
+}
+
+.btn-outline-primary {
+  color: #2a9fd6;
+  border-color: #2a9fd6;
+}
+.btn-outline-primary:hover{
+  background: #2a9fd6;
+  color: white;
+}
+.btn-danger {
+  background-color: #c00;
+  padding: 0.1rem 0.8rem !important;
+}

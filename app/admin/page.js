@@ -13,6 +13,7 @@ const AdminPage = () => {
 
   useEffect(() => {
     localStorage.setItem('role', 'admin');
+    setCurrentView(localStorage.getItem("tab"))
     // Check if the user is an admin
     const role = localStorage.getItem("role");
     setIsAdmin(role === 'admin');
@@ -33,9 +34,9 @@ const AdminPage = () => {
         <div className='flex'>
           <div className="main-form flex gap-20 h-min trans flex-col">
             <div className="btndiv flex justify-between">
-              <button type="button" className='' onClick={() => handleToggle('bin')}>Add Bin Data</button>
-              <button type="button" className='' onClick={() => handleToggle('card')}>Add Card Data</button>
-              <button type="button" className='' onClick={() => handleToggle('user')}>User Action</button>
+              <button type="button" className='' onClick={() => {handleToggle('bin'); localStorage.setItem("tab" , "bin") }}>Add Bin Data</button>
+            <button type="button" className='' onClick={() => {handleToggle('card');localStorage.setItem("tab" , "card") }}>Add Card Data</button>
+              <button type="button" className='' onClick={() =>{if(currentView === "user"){ window.location.href = '/admin'} else {  handleToggle('user'); localStorage.setItem("tab" , "user")}} }>User Action</button>
             </div>
             <div>
               {currentView === 'bin' && <Addbin />}

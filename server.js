@@ -281,7 +281,26 @@ app.get('/api/checks', (req, res) => {
   });
 });
 
+app.post('/api/admin/users/update', (req, res) => {
+  const { username, balance, role, access } = req.body;  // Destructure from req.body
+  console.log(req.body, "data");
 
+  // Correct SQL syntax for update query
+  const query = `UPDATE users SET balance = ?, role = ?, access = ? WHERE username = ?`;
+  
+  db.query(query, [balance, role, access, username], (err, results) => {
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).send({ message: 'Failed to update user' });
+    }
+
+    if (results.affectedRows === 0) {
+      return res.status(404).send({ message: 'User not found' });
+    }
+
+    res.send({ message: 'User updated successfully' });
+  });
+});
 app.post('/api/submit-transaction', (req, res) => {
   const { transactionId, username } = req.body; // Access the username from session
 
@@ -528,6 +547,16 @@ app.post('/api/cards', (req, res) => {
   });
 });
 
+app.get('/api/admin/users', (req, res) => {
+  const query = `select * from users`
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).json({ error: err.message });
+    }
+    res.json(results);
+  });
+});
 app.get('/api/card/cart', (req, res) => {
   const { username } = req.query;
 

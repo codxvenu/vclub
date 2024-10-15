@@ -10950,7 +10950,7 @@ const CreditCardForm = () => {
 {currentData.map((item) => (
             <tr key={item.id}>
    
-    <td className="border px-4 py-2">{maskBin(item.bin)}</td>
+    <td className="border px-4 py-2">{item.bin}</td>
 <td className="border px-4 py-2">{"***"}</td>
 <td className="border px-4 py-2">{item.yymm}</td>
 <td className="border px-4 py-2">{item.country}</td>

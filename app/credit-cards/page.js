@@ -10930,7 +10930,7 @@ const CreditCardForm = () => {
                                         <th>Type</th>
                                         <th>Holder</th>
                                         <th>City</th>
-                                        <th>State</th>
+                                        {/* <th>State</th> */}
                                         <th>ZIP</th>
                                         <th>Base</th>
                                         <th>Price</th>
@@ -10951,15 +10951,15 @@ const CreditCardForm = () => {
             <tr key={item.id}>
    
     <td className="border px-4 py-2">{maskBin(item.bin)}</td>
-<td className="border px-4 py-2">{item.cvv}</td>
+<td className="border px-4 py-2">{"***"}</td>
 <td className="border px-4 py-2">{item.yymm}</td>
 <td className="border px-4 py-2">{item.country}</td>
 <td className="border px-4 py-2">{item.bank}</td>
 <td className="border px-4 py-2">{item.level}</td>
 <td className="border px-4 py-2">{item.type}</td>
-<td className="border px-4 py-2">{item.holder}</td>
+<td className="border px-4 py-2">{maskBin(item.holder)}</td>
 <td className="border px-4 py-2">{item.city}</td>
-<td className="border px-4 py-2">{item.state}</td>
+{/* <td className="border px-4 py-2">{item.state}</td> */}
 <td className="border px-4 py-2">{item.zip}</td>
 <td className="border px-4 py-2">{item.base}</td>
 <td className="border px-4 py-2">{item.price}</td>

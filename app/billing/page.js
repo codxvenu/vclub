@@ -63,7 +63,6 @@ const BillingPage = () => {
     fetchTransactions();
   }, []);
   const handleSubmit = async () => {
-    localStorage.setItem('username', "user1");
     const username = localStorage.getItem('username');
     setIsloader(true);
     try {

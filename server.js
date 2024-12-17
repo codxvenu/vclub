@@ -942,7 +942,6 @@ app.post('/api/purchase', (req, res) => {
             code
           ];
         });
-        console.log(item.ccnum,cc_num);
 
         // Check if any item has already been bought
         const checkCardQuery = `SELECT user FROM credit_card WHERE ccnum = ?`;

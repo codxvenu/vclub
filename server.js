@@ -44,8 +44,8 @@ const db = mysql.createPool({
   connectionLimit: 10,
   host: 'server759.iseencloud.net',
   user: 'nocash_cc_hub',
-  password: 'nocash_cc_hub',
-  database: 'nocash_cc_hub',
+  password: 'dsrsrc_cc_hub',
+  database: 'dsrsrc_cc_hub',
   port: 3306,
   connectTimeout: 30000 // Increase timeout to 30 seconds
 });

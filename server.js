@@ -585,6 +585,7 @@ app.get('/api/card/order', (req, res) => {
       console.error('Database error:', err);
       return res.status(500).json({ error: err.message });
     }
+    console.log(results)
     res.json(results);
   });  
 });

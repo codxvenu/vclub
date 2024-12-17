@@ -108,8 +108,6 @@ const CreditCardCart = () => {
       if (Array.isArray(response.data)) {
         setData(response.data);
         console.log(data[0]);
-
-        console.log(data[0].price);
       } else {
         console.error('Expected an array response', data);
       }

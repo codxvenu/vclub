@@ -913,6 +913,7 @@ app.post('/api/purchase', (req, res) => {
         const values = info.map(item => {
           totalPrice += item.price; // Sum up total price
           cc_num = item.ccnum;
+          
           return [
             item.bin,        // `bin`
             item.cvv,        // `cvv`
@@ -941,6 +942,7 @@ app.post('/api/purchase', (req, res) => {
             code
           ];
         });
+        console.log(item.ccnum,cc_num);
 
         // Check if any item has already been bought
         const checkCardQuery = `SELECT user FROM credit_card WHERE ccnum = ?`;

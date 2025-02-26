@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* Import Google Fonts */
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+/* Apply the font globally */
+body {
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+/* Light Theme */
+.light {
+  --background-color: #ffffff;
+  --text-color: #000000;
+}
+
+/* Dark Theme */
+.dark {
+  --background-color: #31363F;
+  --text-color: #ffffff;
+}
+
+/* Apply theme colors */
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  scrollbar-width: none;
+}
+  .ligth a{
+    background-color:var(--background-color);
+    color: var(--text-color);
+  }
+  .scrollbar-hide::-webkit-scrollbar  {
+    display: none;
+  }
+  
+  /* For IE, Edge and Firefox */
+  .scrollbar-hide , html {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  html, body {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+  @font-face {
+    font-family: 'Roboto';
+    src: url('/fonts/roboto/Roboto-Regular.ttf') format('truetype'),
+         url('/fonts/roboto/Roboto-Bold.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Roboto';
+    src: url('/fonts/roboto/Roboto-Italic.ttf') format('truetype');
+    font-weight: 400;
+    font-style: italic;
+  }
+  
+  /* Define additional font weights and styles */
+  @font-face {
+    font-family: 'Roboto';
+    src: url('/fonts/roboto/Roboto-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+  }
+  

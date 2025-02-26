@@ -42,10 +42,10 @@ app.use((req, res, next) => {
 // MySQL connection pooling
 const db = mysql.createPool({
   connectionLimit: 10,
-  host: 'server959.iseencloud.net',
-  user: 'nocash_vclub',
+  host: 'hpanel.hostinger.com',
+  user: 'u679703987_cc',
   password: '5cdWDOf1dgF8',
-  database: 'nocash_vclub',
+  database: 'u679703987_cc',
   port: 3306,
   connectTimeout: 30000 // Increase timeout to 30 seconds
 });

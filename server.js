@@ -42,37 +42,40 @@ app.use((req, res, next) => {
 // MySQL connection pooling
 const db = mysql.createPool({
   connectionLimit: 10,
-  host: 'server959.iseencloud.net',
-  user: 'nocash_cassh',
-  password: 'nocash_cassh',
-  database: 'nocash_cassh',
-  port: 3306,
-  connectTimeout: 30000 // Increase timeout to 30 seconds
+  host: 'server959.iseencloud.net', // Confirm this is correct
+  user: 'nocash_cassh', // Verify in cPanel
+  password: 'nocash_cassh', // Ensure password is correct
+  database: 'nocash_cassh', // Ensure database exists
+  port: 3306, 
+  connectTimeout: 30000, // 30 seconds
+  acquireTimeout: 30000, // 30 seconds
+  waitForConnections: true
 });
 
+// Handle MySQL connection errors properly
+db.on('error', (err) => {
+  console.error('MySQL error:', err);
+  if (err.code === 'PROTOCOL_CONNECTION_LOST') {
+    console.log('Reconnecting to MySQL...');
+    handleDisconnect();
+  }
+});
 
+// Improved reconnection logic
 const handleDisconnect = () => {
   db.getConnection((err, connection) => {
     if (err) {
       console.error('Error connecting to MySQL:', err);
-      setTimeout(handleDisconnect, 2000); // Attempt to reconnect after 2 seconds
+      setTimeout(handleDisconnect, 2000); // Retry after 2 sec
     } else {
-      console.log('Connected to MySQL database...');
+      console.log('Connected to MySQL...');
       connection.release();
-    }
-  });
-
-  db.on('error', (err) => {
-    console.error('MySQL error:', err);
-    if (err.code === 'PROTOCOL_CONNECTION_LOST') {
-      handleDisconnect(); // Reconnect on connection loss
-    } else {
-      throw err;
     }
   });
 };
 
 handleDisconnect();
+
 app.get('/test-db', (req, res) => {
     db.query('SELECT 1 + 1 AS result', (err, results) => {
         if (err) {

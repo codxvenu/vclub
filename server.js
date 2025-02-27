@@ -47,7 +47,7 @@ const db = mysql.createPool({
   password: '5cdWDOf1dgF8',
   database: 'u679703987_cc',
   port: 3306,
-  connectTimeout: 30000 // Increase timeout to 30 seconds
+  connectTimeout: 70000 // Increase timeout to 30 seconds
 });
 
 

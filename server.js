@@ -12,12 +12,25 @@ const port = 5000;
 
 app.set("trust proxy", 1);
 // Middleware
+const MySQLStore = require('express-mysql-session')(session);
+
+const sessionStore = new MySQLStore({
+  host: 'server959.iseencloud.net', // Confirm in cPanel
+  user: 'nocash_cassh',
+  password: 'nocash_cassh',
+  database: 'nocash_cassh',
+  port: 3306,
+  clearExpired: true,
+  checkExpirationInterval: 900000, // 15 min
+  expiration: 86400000, // 1 day
+});
+
 app.use(session({
-  secret: 'your_secret_key',
+  secret: 'your_secret_key', // Change to a secure key
   resave: false,
   saveUninitialized: false,
+  store: sessionStore
 }));
-
 
 app.use(bodyParser.json());
 const corsOptions = {

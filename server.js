@@ -646,13 +646,24 @@ app.get('/api/ticket', (req, res) => {
 });
 app.post("/api/addcart", (req, res) => {
   const { username, info } = req.body; // Destructure both 'username' and 'info' from req.body
-  let item = info[0];
-  console.log(item, "data");
+  //console.log(item, "data");
 
   if (!username) {
     return res.status(401).send({ message: 'User not authorized' });
   }
+   const findQuery = `
+    SELECT * FROM credit_card WHERE id = ?
+  `;
 
+
+
+  db.query(checkQuery, info, (err, results) => {
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).json({ error: err.message });
+    }
+    let item = results;
+  }
   // Query to check if the item already exists in the cart for the user
   const checkQuery = `
     SELECT * FROM cart WHERE bin = ? AND cvv = ? AND user = ?

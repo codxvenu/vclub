@@ -191,9 +191,9 @@ const CreditCardForm = () => {
       };
 
     const handleOrder = async (id) => {
-        const info = [selectedData(id)]; // Wrap the single item in an array
+         // Wrap the single item in an array
       
-        if (!info || info.length === 0) {
+        if (!info) {
           toast.error('Item not found');
           return;
         }
@@ -206,7 +206,7 @@ const CreditCardForm = () => {
       
         const requestBody = JSON.stringify({
           username: username,
-          info: info // Send info as an array
+          info: id // Send info as an array
         });
       
         try {

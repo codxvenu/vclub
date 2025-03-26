@@ -657,7 +657,7 @@ app.post("/api/addcart", (req, res) => {
 
 
 
-  db.query(checkQuery, info, (err, results) => {
+  db.query(findQuery, info, (err, results) => {
     if (err) {
       console.error('Database error:', err);
       return res.status(500).json({ error: err.message });

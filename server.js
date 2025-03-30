@@ -12,29 +12,16 @@ const port = 5000;
 
 app.set("trust proxy", 1);
 // Middleware
-const MySQLStore = require('express-mysql-session')(session);
-
-const sessionStore = new MySQLStore({
-  host: 'server959.iseencloud.net', // Confirm in cPanel
-  user: 'nocash_cassh',
-  password: 'nocash_cassh',
-  database: 'nocash_cassh',
-  port: 3306,
-  clearExpired: true,
-  checkExpirationInterval: 900000, // 15 min
-  expiration: 86400000, // 1 day
-});
-
 app.use(session({
-  secret: 'your_secret_key', // Change to a secure key
+  secret: 'your_secret_key',
   resave: false,
   saveUninitialized: false,
-  store: sessionStore
 }));
+
 
 app.use(bodyParser.json());
 const corsOptions = {
-  origin: process.env.FRONTEND_URL, // Use the environment variable
+  origin: "http://46.28.44.6:3000", // Use the environment variable
   // origin: "http://localhost:3000",
   credentials: true
 };
@@ -52,43 +39,22 @@ app.use((req, res, next) => {
 });
 
 
-// MySQL connection pooling
 const db = mysql.createPool({
   connectionLimit: 10,
-  host: 'server959.iseencloud.net', // Confirm this is correct
-  user: 'nocash_cassh', // Verify in cPanel
-  password: 'nocash_cassh', // Ensure password is correct
-  database: 'nocash_cassh', // Ensure database exists
-  port: 3306, 
-  connectTimeout: 30000, // 30 seconds
-  acquireTimeout: 30000, // 30 seconds
-  waitForConnections: true
+  host: "127.0.0.1", // Use this instead of "localhost"
+  user: "vclub_user",
+  password: "Vclub@12345!", // The same password
+  database: "vclub",
 });
 
-// Handle MySQL connection errors properly
-db.on('error', (err) => {
-  console.error('MySQL error:', err);
-  if (err.code === 'PROTOCOL_CONNECTION_LOST') {
-    console.log('Reconnecting to MySQL...');
-    handleDisconnect();
+db.getConnection((err, connection) => {
+  if (err) {
+    console.error("Database connection error:", err);
+  } else {
+    console.log("Connected to MySQL database");
+    connection.release();
   }
 });
-
-// Improved reconnection logic
-const handleDisconnect = () => {
-  db.getConnection((err, connection) => {
-    if (err) {
-      console.error('Error connecting to MySQL:', err);
-      setTimeout(handleDisconnect, 2000); // Retry after 2 sec
-    } else {
-      console.log('Connected to MySQL...');
-      connection.release();
-    }
-  });
-};
-
-handleDisconnect();
-
 app.get('/test-db', (req, res) => {
     db.query('SELECT 1 + 1 AS result', (err, results) => {
         if (err) {
@@ -104,14 +70,14 @@ const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: 'viparraich@gmail.com',
-    pass: 'nvle mnas ajmq dphr' // Your app password
+    pass: 'ksnq lgky qhtt ohan' // Your app password
   }
 });
 
 
 const sendMdsCodeEmail = (email, mdsCode) => {
   const mailOptions = {
-    from: 'viparraich@gmail.com',
+    from: 'vclubunitedshop@gmail.com',
     to: email,
     subject: 'Your MDS Code',
     text: `Thank you for registering. Your MDS code is: ${mdsCode} kindly save it for future login`
@@ -141,8 +107,8 @@ app.post('/api/preorder', (req, res) => {
   } = req.body;
 
   const mailOptions = {
-    from: 'viparraich@gmail.com',
-    to: 'viparraich@gmail.com', // Replace with owner's email
+    from: 'vclubunitedshop@gmail.com',
+    to: 'vclubunitedshop@gmail.com', // Replace with owner's email
     subject: 'New Preorder Request',
     text: `Preorder request from ${userid}:
     City: ${city}
@@ -335,8 +301,8 @@ app.post('/api/submit-transaction', (req, res) => {
     return res.status(401).send({ message: 'User not authorized' });
   }
   const mailOptions = {
-    from: 'viparraich@gmail.com',
-    to: 'viparraich@gmail.com',
+    from: 'vclubunitedshop@gmail.com',
+    to: 'vclubunitedshop@gmail.com',
     subject: 'Transaction Details',
     text: `Transaction ID: ${transactionId}\nUsername: ${username}`
   };
@@ -356,8 +322,8 @@ app.post('/api/submit-seller', (req, res) => {
     return res.status(401).send({ message: 'User not authorized' });
   }
   const mailOptions = {
-    from: 'viparraich@gmail.com',
-    to: 'viparraich@gmail.com',
+    from: 'vclubunitedshop@gmail.com',
+    to: 'vclubunitedshop@gmail.com',
     subject: 'Sellers Details',
 
 
@@ -841,8 +807,8 @@ app.post('/api/create/ticket', (req, res) => {
     }
 
     const mailOptions = {
-      from: 'viparraich@gmail.com',
-      to: 'viparraich@gmail.com',
+      from: 'vclubunitedshop@gmail.com',
+      to: 'vclubunitedshop@gmail.com',
       subject: `Ticket Details: ${subject}`,
       text: `Username: ${username}\nDepartment: ${department}\nMessage: ${message}`
     };
@@ -1536,8 +1502,8 @@ app.post('/api/send-email', (req, res) => {
   const emailData = req.body;
 
   const mailOptions = {
-    from: 'viparraich@gmail.com',
-    to: 'viparraich@gmail.com',  // Recipient's email address
+    from: 'vclubunitedshop@gmail.com',
+    to: 'vclubunitedshop@gmail.com',  // Recipient's email address
     subject: 'Credit Details', // Subject of the email
     text: `Here are the details of the Credit Card For Checking For User ${emailData.username}:
     
@@ -1747,7 +1713,7 @@ app.get('/api/payments', (req, res) => {
 });
 
 
-// app.listen(port, () => {
-//   console.log(`Server is running on port: ${port}`);
-// });
-module.exports = app;
+app.listen(port, () => {
+  console.log(`Server is running on port: ${port}`);
+});
+// module.exports = app;

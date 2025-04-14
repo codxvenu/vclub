@@ -21,7 +21,7 @@ app.use(session({
 
 app.use(bodyParser.json());
 const corsOptions = {
-  origin: "http://141.98.157.57:3000", // Use the environment variable
+  origin: "http://vclub-l2pq.vercel.app", // Use the environment variable
   // origin: "http://localhost:3000",
   credentials: true
 };

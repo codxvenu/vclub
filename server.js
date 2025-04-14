@@ -21,7 +21,7 @@ app.use(session({
 
 app.use(bodyParser.json());
 const corsOptions = {
-  origin: "http://46.28.44.6:3000", // Use the environment variable
+  origin: "http://141.98.157.57:3000", // Use the environment variable
   // origin: "http://localhost:3000",
   credentials: true
 };
@@ -1713,7 +1713,7 @@ app.get('/api/payments', (req, res) => {
 });
 
 
-app.listen(port, () => {
-  console.log(`Server is running on port: ${port}`);
-});
-// module.exports = app;
+// app.listen(port, () => {
+//   console.log(`Server is running on port: ${port}`);
+// });
+module.exports = app;
